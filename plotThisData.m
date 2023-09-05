@@ -1,12 +1,12 @@
 % Load the data from the text file
-data = dlmread('june_week2_csv/BPSyPPS_commadecimal.txt');
+data = dlmread('../datasets/ugr16/june_week2_csv/BPSyPPS_commadecimal.txt');
 x = data(:, 1);
 y = data(:, 2);
 z = data(:, 3);
 
 % Specify the time period
 % 1 dia. *1 -> 7 Junio 2016
-start_index = -67+86400*1;          % Starting index of the time period
+start_index = -67+86400*3;          % Starting index of the time period
 end_index = start_index + 86400; % Ending index of the time period
 
 % Select the data within the specified time period
