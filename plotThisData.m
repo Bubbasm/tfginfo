@@ -1,49 +1,39 @@
 % Load the data from the text file
-data = dlmread('../datasets/ugr16/june_week2_csv/BPSyPPS_commadecimal.txt');
+data = load('../datasets/ugr16/june_week2_csv/BPSyPPS.txt');
+
 x = data(:, 1);
 y = data(:, 2);
 z = data(:, 3);
 
-% Specify the time period
-% 1 dia. *1 -> 7 Junio 2016
-start_index = -67+86400*3;          % Starting index of the time period
-end_index = start_index + 86400; % Ending index of the time period
+
+showDays = 5
+start_index = 1;          % Starting index of the time period
+end_index = start_index + 86400*showDays; % Ending index of the time period
 
 % Select the data within the specified time period
 x_period = x(start_index:end_index);
+XDates = datetime(x_period, 'convertfrom', 'posixtime');
 y_period = y(start_index:end_index);
 z_period = z(start_index:end_index);
 
+window_size = 60*15; % Adjust this parameter to control the level of smoothing
+smoothedY = movmean(y_period, window_size);
+smoothedZ = movmean(z_period, window_size);
+
 % Create the x-y plot
 figure;
-subplot(2, 1, 1);
-plot(x_period, y_period, 'b-o');  % Blue line with circles
+plot(XDates, smoothedY, 'b-');  % Blue line
 xlabel('x');
 ylabel('y');
-title('x-y Plot');
+title('Bitrate');
 grid on;
-
-% Create the x-z plot
-subplot(2, 1, 2);
-plot(x_period, z_period, 'r-s');  % Red line with squares
+hold on;
+xline([1:(showDays+1)])
+figure;
+plot(XDates, smoothedZ, 'r-');  % Red line
 xlabel('x');
-ylabel('z');
-title('x-z Plot');
+zlabel('z');
+title('Packet rate');
 grid on;
-
-% Adjust spacing between subplots
-spacing = 0.05;
-subplot(2, 1, 1);
-pos = get(gca, 'Position');
-pos(4) = pos(4) - spacing;
-set(gca, 'Position', pos);
-
-subplot(2, 1, 2);
-pos = get(gca, 'Position');
-pos(2) = pos(2) + spacing;
-set(gca, 'Position', pos);
-
-
-% Save the plots (optional)
-% saveas(gcf, 'x_y_plot.png');  % Save x-y plot
-% saveas(gcf, 'x_z_plot.png');  % Save x-z plot
+hold on;
+xline([1:(showDays+1)])

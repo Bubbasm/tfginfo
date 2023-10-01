@@ -1,9 +1,11 @@
 % Load the data from the text file
-data1 = dlmread('../datasets/ugr16/june_week2_csv/BPSyPPS_commadecimal.txt');
-data2 = dlmread('../datasets/ugr16/june_week3_csv/BPSyPPS_commadecimal.txt');
-x = cat(1,data1(:, 1), data2(:, 1));
-y = cat(1,data1(:, 2), data2(:, 2));
-z = cat(1,data1(:, 3), data2(:, 3));
+
+data = load('../datasets/ugr16/june_week2_csv/BPSyPPS.txt');
+data = [data;load('../datasets/ugr16/june_week3_csv/BPSyPPS.txt')];
+
+x = data(:, 1);
+y = data(:, 2);
+z = data(:, 3);
 
 duracionSemana = 60*60*24*7
 duracionDia = 86400
@@ -18,18 +20,19 @@ endIndex = tiempoBase+duracionSemana;
 
 % Select the data within the specified time period
 xPeriod = x(duracionSemana+startIndex:duracionSemana+startIndex+offsetActual);
+XDates = datetime(xPeriod, 'convertfrom', 'posixtime');
 yPeriod = y(duracionSemana+startIndex:duracionSemana+startIndex+offsetActual)./y(startIndex:startIndex+offsetActual);
 
-window_size = 60*60; % Adjust this parameter to control the level of smoothing
+window_size = 60*15; % Adjust this parameter to control the level of smoothing
 smoothedY = movmean(yPeriod, window_size);
 
 % Create the x-y plot
 figure;
-plot(xPeriod, smoothedY, 'b-');  % Blue line with circles
+plot(XDates, smoothedY, 'b-');  % Blue line with circles
 xlabel('x');
 ylabel('y');
 title('x-y Plot');
-grid on;
+grid on;    
 
 
 % Save the plots (optional)
