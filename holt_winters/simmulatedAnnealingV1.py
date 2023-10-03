@@ -29,11 +29,11 @@ if __name__ == "__main__":
 
     columns = ["Date", "Bitrate", "Packet rate"]
 
-    # df0 = pd.read_csv(r'../../datasets/ugr16/june_week1_csv/BPSyPPS.txt', sep=',', names=columns)
+    df0 = pd.read_csv(r'../../datasets/ugr16/june_week1_csv/BPSyPPS.txt', sep=',', names=columns)
     df1 = pd.read_csv(r'../../datasets/ugr16/june_week2_csv/BPSyPPS.txt', sep=',', names=columns)
     df2 = pd.read_csv(r'../../datasets/ugr16/june_week3_csv/BPSyPPS.txt', sep=',', names=columns)
     df3 = pd.read_csv(r'../../datasets/ugr16/july_week1_csv/BPSyPPS.txt', sep=',', names=columns)
-    df = pd.concat([df1, df2, df3], ignore_index=True)
+    df = pd.concat([df0, df1, df2, df3], ignore_index=True)
     #Definición de parámetros para la predicción
     segsInDay = 86400
     valorventanaseg=segsInDay*5
@@ -47,8 +47,9 @@ if __name__ == "__main__":
     logging.info("Days in dataframe %d" % (days_df))
     t0 = time.time()
     periodo = 0
-    series=df["Bitrate"][valorventanaseg+periodo*slen:2*valorventanaseg+periodo*slen].tolist()
-    valores=df["Bitrate"][2*valorventanaseg+periodo*slen:2*valorventanaseg+periodo*slen+slen].tolist()
+    param="Packet rate"
+    series=df[param][valorventanaseg+periodo*slen:2*valorventanaseg+periodo*slen].tolist()
+    valores=df[param][2*valorventanaseg+periodo*slen:2*valorventanaseg+periodo*slen+slen].tolist()
     alpha_definitivo, beta_definitivo, gamma_definitivo = 0.72149, 0.00004, 0.17637
 
     while True:
@@ -88,6 +89,9 @@ if __name__ == "__main__":
                     alpha_definitivo = alpha_actual
                     beta_definitivo = beta_actual
                     gamma_definitivo = gamma_actual 
+                    with open("simmulatedAnnealing.txt", "a") as file1:
+                        file1.write("alpha, beta, gamma= %2.5f, %2.5f, %2.5f  , Distancia = %.3E\n"%
+                            (alpha_definitivo, beta_definitivo, gamma_definitivo, menor_diferencia))
                 logging.debug("T = %2d D = %.3E"% (T, diferencia_actual))
             
 

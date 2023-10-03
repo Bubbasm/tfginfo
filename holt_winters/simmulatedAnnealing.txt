@@ -1,0 +1,15 @@
+alpha, beta, gamma= 0.38386, 0.01938, 0.28185  , Distancia = 1.642E+10
+alpha, beta, gamma= 0.95920, 0.00001, 0.22629  , Distancia = 1.629E+10
+alpha, beta, gamma= 0.75797, 0.00001, 0.39382  , Distancia = 1.621E+10
+alpha, beta, gamma= 0.66472, 0.00001, 0.40290  , Distancia = 1.618E+10
+alpha, beta, gamma= 0.90789, 0.01496, 0.11775  , Distancia = 1.574E+10
+alpha, beta, gamma= 0.01854, 0.90635, 0.11361  , Distancia = 1.442E+10
+alpha, beta, gamma= 0.55484, 0.51041, 0.40972  , Distancia = 1.579E+09
+alpha, beta, gamma= 0.93078, 0.02559, 0.63205  , Distancia = 5.018E+08
+alpha, beta, gamma= 0.59926, 0.43114, 0.85335  , Distancia = 8.275E+07
+alpha, beta, gamma= 0.08206, 0.00356, 0.86288  , Distancia = 7.245E+07
+alpha, beta, gamma= 0.14792, 0.16454, 0.84793  , Distancia = 4.481E+07
+alpha, beta, gamma= 0.66345, 0.46319, 0.70708  , Distancia = 1.877E+07
+alpha, beta, gamma= 0.38014, 0.00129, 0.68826  , Distancia = 1.744E+07
+alpha, beta, gamma= 0.49690, 0.00126, 0.30738  , Distancia = 1.718E+07
+alpha, beta, gamma= 0.39081, 0.75981, 0.42234  , Distancia = 6.217E+06
