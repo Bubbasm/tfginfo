@@ -22,34 +22,26 @@ if __name__ == "__main__":
 
 
     segsInDay = 86400
-    movingAvgWindow = 60*10*1 + 1
+    movingAvgWindow = 60*10 + 1
 
-    df0 = pd.read_csv(r'../../datasets/ugr16/june_week1_csv/BPSyPPS.txt', sep=',', names=["Date", "Bitrate", "Packet rate"])
-    df1 = pd.read_csv(r'../../datasets/ugr16/june_week2_csv/BPSyPPS.txt', sep=',', names=["Date", "Bitrate", "Packet rate"])
+    df0 = pd.read_csv(r'../../datasets/ugr16/june_week2_csv/BPSyPPS.txt', sep=',', names=["Date", "Bitrate", "Packet rate"])
+    # df1 = pd.read_csv(r'../../datasets/ugr16/june_week2_csv/BPSyPPS.txt', sep=',', names=["Date", "Bitrate", "Packet rate"])
     # Add "Bitrate" and "Packet rate" in df0 for values of df1 that match on "Date"
-    df1 = df1[df1["Date"] > df0["Date"][len(df0)-1]]
-    df = pd.concat([df0, df1], ignore_index=True)
+    # df1 = df1[df1["Date"] > df0["Date"][len(df0)-1]]
+    df = pd.concat([df0], ignore_index=True)
     df["Date"] = pd.to_datetime(df["Date"], unit='s')
 
-    dfNew = df[df["Date"][0] + pd.Timedelta(days=4) < df["Date"]]
-    dfNew.reset_index(drop=True, inplace=True)
+    dfNew = df
+    # dfNew = df[df["Date"][0] + pd.Timedelta(days=0.1) < df["Date"]]
+    # dfNew.reset_index(drop=True, inplace=True)
     twodays = dfNew[dfNew["Date"] < dfNew["Date"][0] + pd.Timedelta(days=2)]
     threedays = dfNew[dfNew["Date"] < dfNew["Date"][0] + pd.Timedelta(days=3)]
-    param="Bitrate"
+    param="Packet rate"
 
-    # alpha, beta, gamma = 0.44425, 0.00015,0.10659
-    # alpha, beta, gamma= 0.01158, 0.00137, 0.92863
-    # alpha, beta, gamma= 0.64087, 0.00065, 0.20647
-    # alpha, beta, gamma= 0.47113, 0.00058, 0.09931
-    # alpha, beta, gamma= 0.19307, 0.02003, 0.71383
-    # alpha, beta, gamma= 0.4481, 0.0, 0.74945
-    # alpha, beta, gamma= 0.72149, 0.00004, 0.17637
-    # alpha, beta, gamma= 0.716, 0.0, 0.993
-    # alpha, beta, gamma= 0.73710, 0.00000, 0.84051
-    # alpha, beta, gamma= 0.01012, 0.00000, 0.20878
-    # alpha, beta, gamma= 0.00355569, 0.01525, 0.1386588
+
     alpha, beta, gamma= 0.39081, 0.0, 0.42234
     alpha, beta, gamma= 0.2940, 0.092, 0.422
+    alpha, beta, gamma= 0.39081, 0.0, 0.42234
     rate = triple_exponential_smoothing(twodays[param], segsInDay, alpha, beta, gamma, segsInDay)
 
     fig, ax = plt.subplots(figsize=(16,9))

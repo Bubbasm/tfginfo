@@ -17,29 +17,29 @@ if __name__ == "__main__":
 
     columns = ["Date", "Bitrate", "Packet rate"]
     paramMeasure="Bitrate"
-    df = pd.read_csv(r'../../datasets/ugr16/june_week2_csv/BPSyPPS.txt', sep=',', names=columns)
+    df = pd.read_csv(r'../../datasets/ugr16/june_week1_csv/BPSyPPS.txt', sep=',', names=columns)
     df["Date"] = pd.to_datetime(df["Date"], unit='s')
 
     df = df[df["Date"][0] + pd.Timedelta(days=1) < df["Date"]]
     df.sort_index(inplace=True)
     df.reset_index(drop=True, inplace=True)
     result = seasonal_decompose(x=df[paramMeasure], model='multiplicative', period=86400, extrapolate_trend='freq')
-    fig, axes = plt.subplots(4, 1, sharex=True, figsize=(16,9))
+    fig, ax = plt.subplots(1, 1, sharex=True, figsize=(16,9))
 
-    windowSize = 60*10 + 1
+    windowSize = 1
 
     smoothenObserv = smoothToSeries(result.observed.tolist(), windowSize)
-    smoothenObserv.plot(ax=axes[0], legend=False, color='r')
-    axes[0].set_ylabel('Observed')
-    smoothenTrend = smoothToSeries(result.trend.tolist(), windowSize)
-    smoothenTrend.plot(ax=axes[1], legend=False, color='g')
-    axes[1].set_ylabel('Trend')
-    smoothenSeason = smoothToSeries(result.seasonal.tolist(), windowSize)
-    smoothenSeason.plot(ax=axes[2], legend=False)
-    axes[2].set_ylabel('Seasonal')
-    smoothenResid = smoothToSeries(result.resid.tolist(), windowSize)
-    smoothenResid.plot(ax=axes[3], legend=False, color='k')
-    axes[3].set_ylabel('Residual')
+    smoothenObserv.plot(ax=ax, legend=False, color='r')
+    ax.set_ylabel('Observed')
+    # smoothenTrend = smoothToSeries(result.trend.tolist(), windowSize)
+    # smoothenTrend.plot(ax=axes[1], legend=False, color='g')
+    # axes[1].set_ylabel('Trend')
+    # smoothenSeason = smoothToSeries(result.seasonal.tolist(), windowSize)
+    # smoothenSeason.plot(ax=axes[2], legend=False)
+    # axes[2].set_ylabel('Seasonal')
+    # smoothenResid = smoothToSeries(result.resid.tolist(), windowSize)
+    # smoothenResid.plot(ax=axes[3], legend=False, color='k')
+    # axes[3].set_ylabel('Residual')
 
     fig.show()
     fig.savefig('filename.eps', format='eps')

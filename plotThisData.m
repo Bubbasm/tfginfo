@@ -1,14 +1,14 @@
 % Load the data from the text file
-data = load('../datasets/ugr16/june_week2_csv/BPSyPPS.txt');
+data = load('../datasets/ugr16/may_week1_csv/BPSyPPS.txt');
 
 x = data(:, 1);
 y = data(:, 2);
 z = data(:, 3);
 
 
-showDays = 5
+showDays = 2
 start_index = 1;          % Starting index of the time period
-end_index = start_index + 86400*showDays; % Ending index of the time period
+end_index = length(data) - 1; % Ending index of the time period
 
 % Select the data within the specified time period
 x_period = x(start_index:end_index);
