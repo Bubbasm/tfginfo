@@ -110,28 +110,37 @@ def ugr_simple_plot(df, smoothingWindow=60*10+1, plotColumns=["Bitrate", "Packet
     plt.rcParams['axes.grid'] = True
 
     if separateWeeks:
-        weeks = [g for n, g in df.groupby(
-            pd.Grouper(key='Date', freq='W')) if len(g) > 0]
-        [week.reset_index(drop=True, inplace=True) for week in weeks]
+        if type(df) is list:
+            weeksArr = [[g for n, g in dff.groupby(
+                pd.Grouper(key='Date', freq='W')) if len(g) > 0] for dff in df]
+            [week.reset_index(drop=True, inplace=True) for weeks in weeksArr for week in weeks ]
+        else:
+            weeksArr = [[g for n, g in df.groupby(
+                pd.Grouper(key='Date', freq='W')) if len(g) > 0]]
+            [week.reset_index(drop=True, inplace=True) for weeks in weeksArr for week in weeks ]
     else:
-        weeks = [df]
+        if type(df) is list:
+            weeksArr = [df]
+        else:
+            weeksArr = [[df]]
 
-    axCount = len(plotColumns)*len(weeks)
+    axCount = len(plotColumns)*len(weeksArr[0])
 
     fig, axs = plt.subplots(axCount, 1, figsize=(16, 9))
     if axCount == 1:
         axs = [axs]
     plt.subplots_adjust(left=0.1, bottom=0.25)
 
-    for weekIdx in range(len(weeks)):
-        week = weeks[weekIdx]
+    for weekIdx in range(len(weeksArr[0])):
+        weekArr = [w[weekIdx] for w in weeksArr]
         for plotColIdx in range(len(plotColumns)):
             plotCol = plotColumns[plotColIdx]
-            for ax in axs[plotColIdx*len(weeks)+weekIdx::axCount]:
-                color = colorPalette.pop(0)
-                colorPalette.append(color)
-                ax.plot(week["Date"], smooth(week[plotCol],
-                        smoothingWindow), label=plotCol, color=color)
+            for ax in axs[plotColIdx*len(weeksArr[0])+weekIdx::axCount]:
+                for i, week in enumerate(weekArr):
+                    color = colorPalette.pop(0)
+                    colorPalette.append(color)
+                    ax.plot(week["Date"], smooth(week[plotCol],
+                            smoothingWindow), label=plotCol+f" ({i})", color=color)
                 ax.set_ylabel(plotCol)
                 ax.set_xlabel("Date" + " (week "+str(week["Date"][0].week)+")")
                 ax.xaxis.set_major_formatter(
@@ -147,7 +156,7 @@ def ugr_simple_plot(df, smoothingWindow=60*10+1, plotColumns=["Bitrate", "Packet
                 ax.ticklabel_format(axis='y', style='sci', scilimits=(8, 4))
 
     fig.tight_layout()
-    plt.show()
+    return plt
 
 
 def ugr_detect_periodicity_sf(df, T0, t1, paramMeasure="Bitrate"):
