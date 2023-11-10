@@ -88,8 +88,7 @@ def ugr_crop_few_minutes(df, minutesLeft, minutesRight=None):
         minutesRight = minutesLeft
     df = df[df["Date"] > df["Date"][0] + pd.Timedelta(minutes=minutesLeft)]
     df.reset_index(drop=True, inplace=True)
-    df = df[df["Date"] < df["Date"]
-            [len(df)-1] - pd.Timedelta(minutes=minutesRight)]
+    df = df[df["Date"] < df["Date"][len(df)-1] - pd.Timedelta(minutes=minutesRight)]
     df.reset_index(drop=True, inplace=True)
     return df
 
@@ -189,10 +188,10 @@ def ugr_detect_periodicity_sf(df, T0, t1, paramMeasure="Bitrate"):
     return
 
 
-def ugr_seasonal_decompose_1(df, paramMeasure="Bitrate"):
+def ugr_seasonal_decompose(df, paramMeasure="Bitrate"):
     from statsmodels.tsa.seasonal import seasonal_decompose
     result = seasonal_decompose(
-        x=df[paramMeasure], model='additive', period=86400, extrapolate_trend='freq')
+        x=df[paramMeasure], model='additive', period=86400*7, extrapolate_trend='freq')
     return result
 
 # Takes way too long. Not good. Need to reduce dimensionality

@@ -1,21 +1,38 @@
 if __name__ == "__main__":
     from utilities import *
-    # df0 = ugr_load_data("june", 1)
-    # df1 = ugr_load_data("june", 2)
-    # df2 = ugr_load_data("june", 3)
+    df0 = ugr_load_data("june", 1)
+    df1 = ugr_load_data("june", 2)
+    df2 = ugr_load_data("june", 3)
 
     # df = ugr_concat_data_list([df0, df1, df2])
     # df = ugr_crop_few_minutes(df, 100)
 
-    df7 = ugr_load_data("may", 3)
-    df = ugr_crop_few_minutes(df7, 150, 10)
+    # df7 = ugr_load_data("may", 3)
+    # df = ugr_crop_few_minutes(df7, 150, 10)
 
+    df = ugr_concat_data_list([
+                           df0, df1, df2,
+                        #    df3, df4, df5,
+                            # df6, 
+                            # df7,
+                            # df8, df9, df10,
+                        #    df11,
+                        #    df12, df13
+                            ])
 
     # Crop 3 days starting from the second day
     # df = ugr_get_first_n_days(df, 5)
     # df = ugr_get_last_n_days(df, 2)
+    df = ugr_crop_few_minutes(df, 60*60)
 
     # ugr_seasonal_decompose_2 takes too long (never ended)
-    res1 = ugr_seasonal_decompose_1(df, paramMeasure="Bitrate")
+    res1 = ugr_seasonal_decompose(df, paramMeasure="Bitrate")
 
-    ugr_seasonal_plot(df, res1)    
+    with open("june_residue_add.csv", "wb") as f:
+        data = zip([int(d.timestamp()) for d in df["Date"]], res1.resid)
+        for d in data:
+            f.write("{}, {}\n".format(d[0], d[1]).encode())
+
+
+
+    ugr_seasonal_plot(df, res1)
