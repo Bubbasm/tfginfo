@@ -12,7 +12,7 @@ def ugr_load_data(month: str, weekNum: int):
     except FileNotFoundError:
         print("File not found")
         return
-    df["Date"] = pd.to_datetime(df["Date"], unit='s')
+    df["Date"] = pd.to_datetime(df["Date"], unit='s') + pd.Timedelta(hours=2)
 
     return df
 
@@ -60,6 +60,12 @@ def ugr_concat_data_list(dataList):
 def smooth(a, WSZ):
     if WSZ == 1:
         return a
+    if WSZ % 2 == 0:
+        WSZ += 1
+    if WSZ > len(a):
+        WSZ = len(a)
+        if WSZ % 2 == 0:
+            WSZ -= 1
     import numpy as np
     out0 = np.convolve(a, np.ones(WSZ, dtype=int), 'valid')/WSZ
     r = np.arange(1, WSZ-1, 2)
@@ -92,6 +98,20 @@ def ugr_crop_few_minutes(df, minutesLeft, minutesRight=None):
     df.reset_index(drop=True, inplace=True)
     return df
 
+def ugr_get_few_minutes(df, offset, minutes):
+    import pandas as pd
+    df = df[df["Date"] > df["Date"][0] + pd.Timedelta(minutes=offset)]
+    df.reset_index(drop=True, inplace=True)
+    df = df[df["Date"] < df["Date"][0] + pd.Timedelta(minutes=minutes)]
+    df.reset_index(drop=True, inplace=True)
+    return df
+
+def ugr_group_n_points(df, n):
+    import pandas as pd
+    date = df["Date"][::n].reset_index(drop=True, inplace=False)
+    df = df.groupby(df.index // n).sum()
+    df["Date"] = date
+    return df
 
 def ugr_simple_plot(df, smoothingWindow=60*10+1, plotColumns=["Bitrate", "Packet rate"], separateWeeks=True):
     import matplotlib.pyplot as plt
@@ -191,13 +211,30 @@ def ugr_detect_periodicity_sf(df, T0, t1, paramMeasure="Bitrate"):
 def ugr_seasonal_decompose(df, paramMeasure="Bitrate"):
     from statsmodels.tsa.seasonal import seasonal_decompose
     result = seasonal_decompose(
-        x=df[paramMeasure], model='additive', period=86400*7, extrapolate_trend='freq')
+        x=df[paramMeasure], model='multiplicative', period=86400*7, extrapolate_trend='freq')
     return result
 
-# Takes way too long. Not good. Need to reduce dimensionality
 def ugr_seasonal_decompose_2(df, paramMeasure="Bitrate"):
+    from statsmodels.tsa.seasonal import seasonal_decompose, DecomposeResult
+    import numpy as np
+    result = seasonal_decompose(x=df[paramMeasure], model='multiplicative', period=86400*7, extrapolate_trend='freq')
+    res = seasonal_decompose(
+        x=result.resid,
+        model='multiplicative', period=86400, extrapolate_trend='freq')
+    return DecomposeResult(observed=res.observed,  seasonal=np.array([res.seasonal, result.seasonal]), trend=np.array([res.trend, result.trend]), resid=res.resid)
+
+# Takes way too long. Not good. Need to reduce dimensionality
+def ugr_seasonal_decompose_stl(df, paramMeasure="Bitrate"):
     from statsmodels.tsa.seasonal import STL
     result = STL(df[paramMeasure], period=86400, robust=False).fit()
+
+# Tarda muchisimo (e.g. no acaba nunca)
+def ugr_seasonal_decompose_mstl(df, paramMeasure="Bitrate"):
+    from statsmodels.tsa.seasonal import MSTL
+    stl_kwargs = {"seasonal_deg": 0}
+    model = MSTL(df[paramMeasure], periods=(86400, 86400 * 7), stl_kwargs=stl_kwargs)
+    res = model.fit()
+    return res
 
 
 def ugr_seasonal_plot(df, result, smoothingWindow = 60*10+1, separateWeeks=True):
@@ -207,7 +244,8 @@ def ugr_seasonal_plot(df, result, smoothingWindow = 60*10+1, separateWeeks=True)
     import numpy as np
     from datetime import datetime
     plt.rcParams['axes.grid'] = True
-    fig, axs = plt.subplots(4, 1, sharex=True, figsize=(16, 9))
+
+    fig, axs = plt.subplots(2+result.seasonal.ndim+result.trend.ndim, 1, sharex=True, figsize=(16, 10))
 
     if smoothingWindow % 2 == 0:
         smoothingWindow += 1
@@ -215,8 +253,18 @@ def ugr_seasonal_plot(df, result, smoothingWindow = 60*10+1, separateWeeks=True)
     colorPalette = ["#165091", "#E16E0D", "#26890C", "#1368CE",
                     "#D62728", "#8C564B", "#E377C2", "#7F7F7F", "#BCBD22", "#17BECF"]
 
-    plotCols = [("Observed", result.observed), ("Trend", result.trend),
-                ("Seasonal", result.seasonal), ("Residue", result.resid)]
+    plotCols = [("Observed", result.observed)]
+    if result.trend.ndim == 2:
+        plotCols.append(("Trend 1d", result.trend[0]))
+        plotCols.append(("Trend 1w", result.trend[1]))
+    else:
+        plotCols.append(("Trend", result.trend))
+    if result.seasonal.ndim == 2:
+        plotCols.append(("Seasonal 1d", result.seasonal[0]))
+        plotCols.append(("Seasonal 1w", result.seasonal[1]))
+    else:
+        plotCols.append(("Seasonal", result.seasonal))
+    plotCols.append(("Residue", result.resid))
 
     for ax in axs:
         color = colorPalette.pop(0)

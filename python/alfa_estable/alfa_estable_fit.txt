@@ -13,3 +13,9 @@ Método multiplicativo ventana 6h:
 Método multiplicativo ventana 12h:
     (1.8943769207398953, 0.981645404692916, 0.9991765793143697, 0.09338134414810942)
     Duración ejecución: 3h 43min
+
+
+MATLAB: 
+    - stable fit
+    - o un fit con parametro stable
+    !! Instalar toolkit fit distribuciones y optimizacion

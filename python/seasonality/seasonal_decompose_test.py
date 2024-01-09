@@ -25,14 +25,15 @@ if __name__ == "__main__":
     # df = ugr_get_last_n_days(df, 2)
     df = ugr_crop_few_minutes(df, 60*60)
 
-    # ugr_seasonal_decompose_2 takes too long (never ended)
-    res1 = ugr_seasonal_decompose(df, paramMeasure="Bitrate")
+    res1 = ugr_seasonal_decompose_2(df, paramMeasure="Bitrate")
 
-    with open("june_residue_add.csv", "wb") as f:
-        data = zip([int(d.timestamp()) for d in df["Date"]], res1.resid)
-        for d in data:
-            f.write("{}, {}\n".format(d[0], d[1]).encode())
-
+    # with open("june_residue_mul.csv", "wb") as f:
+    #     data = zip([int(d.timestamp()) for d in df["Date"]], res1.resid)
+    #     for d in data:
+    #         f.write("{}, {}\n".format(d[0], d[1]).encode())
 
 
-    ugr_seasonal_plot(df, res1)
+    # print(len(res1.observed), len(res1.trend), len(res1.seasonal), len(res1.resid))
+
+
+    ugr_seasonal_plot(df, res1, smoothingWindow=60)

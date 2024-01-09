@@ -42,18 +42,17 @@ if __name__ == "__main__":
     lastTwoHours = twodays[param][-2*3600:]
     lastTwoHours.reset_index(drop=True, inplace=True)
 
-    alpha, beta, gamma= 0.39081, 0.0, 0.42234
-    alpha, beta, gamma= 0.2940, 0.092, 0.422
-    alpha, beta, gamma= 0.39081, 0.0, 0.42234
+    alpha, beta, gamma= 0.1, 0.0, 0.7
     rate = triple_exponential_smoothing(lastTwoHours, 3600, alpha, beta, gamma, 3600)
     fig, ax = plt.subplots(figsize=(16,9))
-    plt.subplots_adjust(left=0.1, bottom=0.25)
+    plt.subplots_adjust(left=0.1, bottom=0.1)
     
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%d/%m/%Y %H:%M:%S'))
     plt.gca().xaxis.set_major_locator(mdates.AutoDateLocator())
-    
+    plt.gcf().autofmt_xdate()
+
     plt.title("Triple Exponential Smoothing")
-    plt.legend(["This is my legend"], fontsize="x-large")
+    plt.legend(["Leyenda"], fontsize="x-large")
     plt.xlabel("Time")
     plt.ylabel("Value")
 
@@ -62,41 +61,37 @@ if __name__ == "__main__":
     line2, = plt.plot(threedays["Date"][-2*3600:], smooth(threedays[param], movingAvgWindow)[-2*3600:], color="#26890C", label="Real")
     # line3, = plt.plot(threedays["Date"][-2*3600:], smooth(rate - threedays[param], movingAvgWindow)[-2*3600:], color="#E21B3C", label="Error")
     # print("%.3E"%(np.sqrt(sum((threedays[param][-segsInDay:]-rate[-segsInDay:])**2))))
-    # plt.gcf().autofmt_xdate()
+    
 
-    axcolor = 'lightgoldenrodyellow'
-    axalpha = plt.axes([0.1, 0.1, 0.65, 0.03], facecolor=axcolor)
-    axbeta = plt.axes([0.1, 0.05, 0.65, 0.03], facecolor=axcolor)
-    axgamma = plt.axes([0.1, 0.00, 0.65, 0.03], facecolor=axcolor)
+    # axcolor = 'lightgoldenrodyellow'
+    # axalpha = plt.axes([0.1, 0.1, 0.65, 0.03], facecolor=axcolor)
+    # axbeta = plt.axes([0.1, 0.05, 0.65, 0.03], facecolor=axcolor)
+    # axgamma = plt.axes([0.1, 0.00, 0.65, 0.03], facecolor=axcolor)
+    # s_alpha = Slider(axalpha, 'Alpha', 0.0, 1.0, valinit=alpha)
+    # s_beta = Slider(axbeta, 'Beta', 0.0, 1.0, valinit=beta)
+    # s_gamma = Slider(axgamma, 'Gamma', 0.0, 1.0, valinit=gamma)
+    # def update(val):
+    #     alpha = s_alpha.val
+    #     beta = s_beta.val
+    #     gamma = s_gamma.val
 
-    s_alpha = Slider(axalpha, 'Alpha', 0.0, 1.0, valinit=alpha)
-    s_beta = Slider(axbeta, 'Beta', 0.0, 1.0, valinit=beta)
-    s_gamma = Slider(axgamma, 'Gamma', 0.0, 1.0, valinit=gamma)
+    #     # Recalculate rate with updated alpha, beta, and gamma
+    #     rate = triple_exponential_smoothing(twodays[param], segsInDay, alpha, beta, gamma, 3600)
 
-    def update(val):
-        alpha = s_alpha.val
-        beta = s_beta.val
-        gamma = s_gamma.val
+    #     # Update plot data
+    #     line1.set_ydata(smooth(rate, movingAvgWindow)[-2*3600:])
+    #     # line3.set_ydata(smooth(rate - threedays[param], movingAvgWindow)[-2*3600:])
 
-        # Recalculate rate with updated alpha, beta, and gamma
-        rate = triple_exponential_smoothing(twodays[param], segsInDay, alpha, beta, gamma, 3600)
+    #     # Print the error
+    #     print("%.3E" % (np.sqrt(sum((threedays[param] - rate) ** 2))))
 
-        # Update plot data
-        line1.set_ydata(smooth(rate, movingAvgWindow)[-2*3600:])
-        # line3.set_ydata(smooth(rate - threedays[param], movingAvgWindow)[-2*3600:])
-
-        # Print the error
-        print("%.3E" % (np.sqrt(sum((threedays[param] - rate) ** 2))))
-
-        # Redraw the plot
-        fig.canvas.draw_idle()
-        # plt.savefig("holt_winters"+str(int(time.time()))+".png")
-
-
-    # Attach the update function to the sliders
-    s_alpha.on_changed(update)
-    s_beta.on_changed(update)
-    s_gamma.on_changed(update)
+    #     # Redraw the plot
+    #     fig.canvas.draw_idle()
+    #     # plt.savefig("holt_winters"+str(int(time.time()))+".png")
+    # # Attach the update function to the sliders
+    # s_alpha.on_changed(update)
+    # s_beta.on_changed(update)
+    # s_gamma.on_changed(update)
 
 
     plt.savefig("holt_winters.png")
