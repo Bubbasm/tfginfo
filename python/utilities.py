@@ -108,7 +108,9 @@ def ugr_get_few_minutes(df, offset, minutes):
 
 def ugr_group_n_points(df, n):
     import pandas as pd
+    pd.options.mode.chained_assignment = None
     date = df["Date"][::n].reset_index(drop=True, inplace=False)
+    df.drop(["Date"], axis=1, inplace=True)
     df = df.groupby(df.index // n).sum()
     df["Date"] = date
     return df

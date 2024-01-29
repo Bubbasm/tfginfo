@@ -24,7 +24,7 @@ if __name__ == "__main__":
     print(df["Date"][0])
 
     dataComplete = df
-    dataComplete = ugr_get_few_minutes(dataComplete, 60*7+10, 60*24*8)
+    dataComplete = ugr_get_few_minutes(dataComplete, 60*24+60*7+15, 60*24*8)
     trainDays = 5
     dataTrain = ugr_get_first_n_days(dataComplete, trainDays)
 
@@ -39,6 +39,18 @@ if __name__ == "__main__":
 
     daydiff = dataTrain.diff(periods=86400)
     daydiff = daydiff.dropna().reset_index(drop=True, inplace=False)
+
+    # plot daydiff
+    # fig, ax = plt.subplots(figsize=(16,9))
+    # plt.subplots_adjust(left=0.1, bottom=0.1)
+    # plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%d/%m/%Y %H:%M:%S'))
+    # plt.gca().xaxis.set_major_locator(mdates.AutoDateLocator())
+    # plt.title("Daydiff")
+    # plt.xlabel("Time")
+    # plt.ylabel(param)
+    # plt.plot(range(len(daydiff)), smooth(daydiff[param], 61), color="#1368CE", label="Daydiff")
+    # plt.gca().legend(loc='upper left')
+    # plt.show()
 
 
     npDataTrain = np.array(dataTrain[param]).reshape(-1, trainDays, order='F') 

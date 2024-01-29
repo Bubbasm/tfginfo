@@ -15,6 +15,8 @@ if __name__ == "__main__":
 
     df = ugr_get_last_n_days(ugr_get_first_n_days(df, 17), 17)
 
+    df = ugr_crop_few_minutes(df, 30, 0)
+
     twodays = ugr_get_first_n_days(df, 7)
     threedays = ugr_get_first_n_days(df, 8)
 

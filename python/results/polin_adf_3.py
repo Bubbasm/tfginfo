@@ -34,15 +34,16 @@ if __name__ == "__main__":
     #     exit
 
     print(dff)
-
+    # [i*500000 for i in range(180)]
     # modify 180 points of dff["Bitrate"], adding them a value of ~50000
-    dff["Bitrate"][100:280] = dff["Bitrate"][100:280] + [i*500000 for i in range(180)]
+    dff["Bitrate"][100:280] = dff["Bitrate"][100:280] + 1*10**8
     
     # plot dff["Bitrate"]
     plt.plot(t, dff["Bitrate"])
     plt.show()
 
 
+    # TODO utilizar tambien derivada convolucionada
     x_t = dff["Bitrate"].diff().dropna().reset_index(drop=True, inplace=False)
 
     # mean and std of x_t
@@ -51,4 +52,6 @@ if __name__ == "__main__":
     # show histogram of x_t
     plt.hist(x_t, bins=500)
     plt.show()
+
+    # TODO alfa estable fit de x_t y comparar sin ataque
 
