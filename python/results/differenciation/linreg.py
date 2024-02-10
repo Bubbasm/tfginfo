@@ -3,7 +3,7 @@ if __name__ == "__main__":
     import pandas as pd
     import statsmodels.api as sm
     
-    file = open("linregr2.txt", "r")
+    file = open("linregr3.txt", "r")
     columns=["a", "b", "c", "d", "e", "f", "attack"]
 
     df = pd.read_csv(file, sep=" ", names=columns)

@@ -20,7 +20,7 @@ if __name__ == "__main__":
     predict = 3 # minutes
     winlen = 13 # minutes
 
-    window = 6728 # 158 # ejemplo de falso positivo
+    window = 10 # 158 # ejemplo de falso positivo
     dff = ugr_get_few_minutes(df, window, winlen)
     t = [i for i in range(len(dff))]
     # dff["Bitrate"][-(predict)*60:] = dff["Bitrate"][-(predict)*60:] + [(i*10**6)/2 for i in range((predict)*60)]
@@ -47,9 +47,10 @@ if __name__ == "__main__":
     # print("Andr: ",anderson_ksamp([x_t_orig, x_t_new]).significance_level)
 
     # mean and std of x_t
+    print("Train:  ",(x_t_orig.mean(), x_t_orig.std()))
     print("Test:  ",(x_t_new.mean(), x_t_new.std()))
 
     # show histogram of x_t
-    plt.hist(x_t_orig, bins=500, density=True, alpha=0.5)
+    plt.hist(x_t_orig, bins=100, density=True, alpha=0.5)
     plt.hist(x_t_new, bins=100, color="red", density=True, alpha=0.5)
     plt.show()

@@ -22,7 +22,8 @@ if __name__ == "__main__":
         t = [i for i in range(len(dff))]
         # dff["Bitrate"][-(predict-1)*60:] = dff["Bitrate"][-(predict-1)*60:] + [i*10**6/2 for i in range((predict-1)*60)]
 
-        x_t = dff["Bitrate"].diff().dropna().reset_index(drop=True, inplace=False)
+        # x_t = dff["Bitrate"].diff().dropna().reset_index(drop=True, inplace=False)
+        x_t = pd.Series([-1/2*dff["Bitrate"][i-1] + 1/2*dff["Bitrate"][i+1] for i in range(1, len(dff)-1)])
         x_t_orig = x_t[:(winlen-predict)*60]
 
         a,b = x_t_orig.mean(), x_t_orig.std()
@@ -43,7 +44,9 @@ if __name__ == "__main__":
         # linregr2.txt: dff["Bitrate"][-(predict-1)*60:] = dff["Bitrate"][-(predict-1)*60:] + [i*10**6/2 for i in range((predict-1)*60)]
         # linregr3.txt: dff["Bitrate"][-(predict-1)*60:] = dff["Bitrate"][-(predict-1)*60:] + [i*10**6 for i in range((predict-1)*60)]
         # linregr4.txt: dff["Bitrate"][-(predict)*60:] = dff["Bitrate"][-(predict)*60:] + [i*10**6 for i in range((predict)*60)]
-        x_t = dff["Bitrate"].diff().dropna().reset_index(drop=True, inplace=False)
+        # x_t = dff["Bitrate"].diff().dropna().reset_index(drop=True, inplace=False)
+        x_t = pd.Series([-1/2*dff["Bitrate"][i-1] + 1/2*dff["Bitrate"][i+1] for i in range(1, len(dff)-1)])
+
         x_t_new = pd.Series([(x_t[i] - a)/b for i in range((winlen-predict)*60, len(x_t))])
 
         c,d = x_t_new.mean(), x_t_new.std()

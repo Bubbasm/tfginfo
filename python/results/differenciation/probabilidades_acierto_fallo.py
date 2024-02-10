@@ -7,16 +7,19 @@ from joblib import Parallel, delayed
 
 def is_attack(m,s) -> bool:
     # otra posible comprobación es m>=offset para distintos valores de offset
-    return (0.31+11*m-0.07*s)>=0.5 or m>=0.02
+    return (-1.7692+136.9404*m-0.2316*s)>0
 
-def task(winlen, predict, attackType, df):
+def task(winlen, predict, attackType, diffType, df):
     probs = [[0, 0],[0, 0]]
     win = random.randint(0, len(df)//60-winlen)
 
     dff = ugr_get_few_minutes(df, win, winlen)
     t = [i for i in range(len(dff))]
 
-    x_t = dff["Bitrate"].diff().dropna().reset_index(drop=True, inplace=False)
+    if diffType == 0:
+        x_t = dff["Bitrate"].diff().dropna().reset_index(drop=True, inplace=False)
+    else:
+        x_t = pd.Series([-1/2*dff["Bitrate"][i-1] + 1/2*dff["Bitrate"][i+1] for i in range(1, len(dff)-1)])
     x_t_orig = x_t[:(winlen-predict)*60]
 
     a,b = x_t_orig.mean(), x_t_orig.std()
@@ -31,11 +34,14 @@ def task(winlen, predict, attackType, df):
         probs[0][0] += 1
 
     if attack["type"] == 0:
-        dff["Bitrate"][-(predict-1)*60:] = dff["Bitrate"][-(predict-1)*60:] + 1*10**8/2
+        dff["Bitrate"][-(predict-1)*60:] = dff["Bitrate"][-(predict-1)*60:] + 1*10**8
     elif attack["type"] == 1:
         dff["Bitrate"][-(predict-1)*60:] = dff["Bitrate"][-(predict-1)*60:] + [(i*10**6)/2 for i in range((predict-1)*60)]
 
-    x_t = dff["Bitrate"].diff().dropna().reset_index(drop=True, inplace=False)
+    if diffType == 0:
+        x_t = dff["Bitrate"].diff().dropna().reset_index(drop=True, inplace=False)
+    else:
+        x_t = pd.Series([-1/2*dff["Bitrate"][i-1] + 1/2*dff["Bitrate"][i+1] for i in range(1, len(dff)-1)])
     x_t_new = pd.Series([(x_t[i] - a)/b for i in range((winlen-predict)*60, len(x_t))])
     m = x_t_new.mean()
     s = x_t_new.std()
@@ -59,11 +65,11 @@ if __name__ == "__main__":
     predict = 3
     winlen = 13
     attack = {"name": "constante", "type": 0}
-    # attack = {"name": "creciente", "type": 1}
+    attack = {"name": "creciente", "type": 1}
 
-    nobs = 5000
+    nobs = 500
 
-    results = Parallel(n_jobs=4)(delayed(task)(winlen, predict, attack['type'], df) for i in range(nobs))
+    results = Parallel(n_jobs=4)(delayed(task)(winlen, predict, attack['type'], 1, df) for i in range(nobs))
     probs = [[0, 0],[0, 0]]
     for i in range(len(results)):
         probs[0][0] += results[i][0][0]

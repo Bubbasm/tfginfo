@@ -1,25 +1,20 @@
 if __name__ == "__main__":
     from utilities import *
-    import matplotlib.pyplot as plt
-    import numpy as np 
+    from differenciation.diff_utils import *
+    import pandas as pd
+    from scipy.stats import levy_stable
 
     df1 = ugr_load_data("june", 2)
     df2 = ugr_load_data("june", 3)
     df = ugr_concat_data_list([df1, df2])
-    df = ugr_crop_few_minutes(df, 60)
-    dataComplete = ugr_get_first_n_days(df, 8)
-    dataComplete = ugr_get_few_minutes(dataComplete, 60*7, 60*24*8)
-    dataTrain = ugr_get_first_n_days(dataComplete, 7)
+    df = ugr_crop_few_minutes(df, 10, 10)
 
-    daydiff = df.diff(periods=86400)
-    daydiff = daydiff.dropna()
+    x = pd.Series()
+    for win in range(0, len(df)//60-15, 15):
+        dff = ugr_get_few_minutes(df, win, 15)
+        # dff = apply_attack(dff, 2, method="increasing")
 
-    param = "Bitrate"
+        x_t = diff_series(dff, method="conv")
+        x = pd.concat([x, x_t])
 
-    avgday = sum([np.array(dataTrain[param][i:i+86400]) for i in range(0, len(dataTrain), 86400)])
-    avgday = np.divide(avgday, len(dataTrain)/86400)
-
-    print(len(avgday),avgday)
-
-    plt.plot(smooth(avgday, 60))
-    plt.show()
+    x.to_csv("diff_no_attack.csv", index=False)
