@@ -18,7 +18,7 @@ if __name__ == "__main__":
     df = ugr_crop_few_minutes(df, 10, 10)
 
     predict = 3 # minutes
-    winlen = 13 # minutes
+    winlen = 15 # minutes
 
     window = 10 # 158 # ejemplo de falso positivo
     dff = ugr_get_few_minutes(df, window, winlen)
@@ -46,11 +46,11 @@ if __name__ == "__main__":
     # print("KS:   ",ks_2samp(x_t_orig, x_t_new, alternative="two-sided").pvalue)
     # print("Andr: ",anderson_ksamp([x_t_orig, x_t_new]).significance_level)
 
-    # mean and std of x_t
-    print("Train:  ",(x_t_orig.mean(), x_t_orig.std()))
-    print("Test:  ",(x_t_new.mean(), x_t_new.std()))
+    # # mean and std of x_t
+    # print("Train:  ",(x_t_orig.mean(), x_t_orig.std()))
+    # print("Test:  ",(x_t_new.mean(), x_t_new.std()))
 
-    # show histogram of x_t
-    plt.hist(x_t_orig, bins=100, density=True, alpha=0.5)
-    plt.hist(x_t_new, bins=100, color="red", density=True, alpha=0.5)
-    plt.show()
+    # # show histogram of x_t
+    # plt.hist(x_t_orig, bins=100, density=True, alpha=0.5)
+    # plt.hist(x_t_new, bins=100, color="red", density=True, alpha=0.5)
+    # plt.show()
