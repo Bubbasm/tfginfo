@@ -57,10 +57,10 @@ if __name__ == "__main__":
     df = ugr_crop_few_minutes(df, 10, 10)
 
     predict = 3
-    winlen = 60
+    winlen = 15
     attack = {"name": "constant", "type": 0}
-    # attack = {"name": "increasing", "type": 1}
-    # differenciation = {"name": "first discrete diff.", "type": 0}
+    attack = {"name": "increasing", "type": 1}
+    differenciation = {"name": "first discrete diff.", "type": 0}
     differenciation = {"name": "convolution", "type": 1}
 
     nobs = 500

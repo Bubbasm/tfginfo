@@ -5,7 +5,7 @@ if __name__ == "__main__":
 
     from statsmodels.discrete.discrete_model import Logit
     
-    file = open("linregr1.txt", "r")
+    file = open("linregr2.txt", "r")
     columns=["a", "b", "c", "d", "e", "f", "attack"]
 
     df = pd.read_csv(file, sep=" ", names=columns)

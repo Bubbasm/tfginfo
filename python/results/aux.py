@@ -10,11 +10,17 @@ if __name__ == "__main__":
     df = ugr_crop_few_minutes(df, 10, 10)
 
     x = pd.Series()
-    for win in range(0, len(df)//60-15, 15):
-        dff = ugr_get_few_minutes(df, win, 15)
-        # dff = apply_attack(dff, 2, method="increasing")
 
-        x_t = diff_series(dff, method="conv")
-        x = pd.concat([x, x_t])
+    win = 12
 
-    x.to_csv("diff_no_attack.csv", index=False)
+    dff = ugr_get_few_minutes(df, win, 15)
+    # dff = apply_attack(dff, 2, method="increasing")
+
+    x_t = diff_series(dff, method=1)
+    print(x_t.mean(), x_t.std())
+    # plot series
+    from matplotlib import pyplot as plt
+    plt.plot(dff["Date"][:898], x_t)
+    plt.show()
+
+    
