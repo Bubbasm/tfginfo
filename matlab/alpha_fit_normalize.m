@@ -1,7 +1,7 @@
 warning('off')
 % Step 1: Read data from CSV into a table
-% data1 = readtable('../python/diff_attack.csv');
-% data2 = readtable('../python/diff_no_attack.csv');
+% data1 = readtable('../csv/diff_attack.csv');
+% data2 = readtable('../csv/diff_no_attack.csv');
 % 
 % window_size = 898;
 % 
@@ -59,4 +59,4 @@ end
 result_table = table(alpha_values, beta_values, gamma_values, delta_values, attack_value);
 
 % Save the table to a CSV file
-writetable(result_table, '../python/alpha_fit_normalized.csv');
+writetable(result_table, '../csv/alpha_fit_normalized.csv');

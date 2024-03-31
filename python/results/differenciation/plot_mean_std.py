@@ -4,7 +4,7 @@ if __name__ == "__main__":
     import statsmodels.api as sm
     import matplotlib.pyplot as plt
     
-    file = open("linregr2.txt", "r")
+    file = open("../csv/linregr2.txt", "r")
     columns=["a", "b", "c", "d", "e", "f", "attack"]
 
     df = pd.read_csv(file, sep=" ", names=columns)

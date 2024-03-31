@@ -4,8 +4,8 @@ if __name__ == "__main__":
     import statsmodels.api as sm
     import matplotlib.pyplot as plt
     
-    file1 = open("alpha_fit_normalized.csv", "r")
-    # file2 = open("alpha_beta_values_no_attack.csv", "r")
+    file1 = open("../csv/alpha_fit_normalized.csv", "r")
+    # file2 = open("../csv/alpha_beta_values_no_attack.csv", "r")
 
     df1 = pd.read_csv(file1, sep=",")
     # df2 = pd.read_csv(file2, sep=",")

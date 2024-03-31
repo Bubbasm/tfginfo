@@ -10,7 +10,7 @@ if __name__ == "__main__":
     predict = 3 # minutes
     winlen = 15 # minutes
 
-    file = open("linregr.txt", "w")
+    file = open("../linregr.txt", "w")
 
     print(len(df)/60)
     avgNoAttackMean = []

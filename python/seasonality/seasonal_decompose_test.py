@@ -27,7 +27,7 @@ if __name__ == "__main__":
 
     res1 = ugr_seasonal_decompose_2(df, paramMeasure="Bitrate")
 
-    # with open("june_residue_mul.csv", "wb") as f:
+    # with open("../csv/june_residue_mul.csv", "wb") as f:
     #     data = zip([int(d.timestamp()) for d in df["Date"]], res1.resid)
     #     for d in data:
     #         f.write("{}, {}\n".format(d[0], d[1]).encode())

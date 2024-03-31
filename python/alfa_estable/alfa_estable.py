@@ -2,7 +2,7 @@ def residue_load_data(basename: str):
     import pandas as pd
     columns = ["Date", "Residue"]
     try:
-        df = pd.read_csv(basename+".csv", sep=',', names=columns)
+        df = pd.read_csv("../csv/"+basename+".csv", sep=',', names=columns)
     except FileNotFoundError:
         print("File not found")
         return

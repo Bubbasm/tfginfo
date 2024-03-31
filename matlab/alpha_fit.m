@@ -1,6 +1,6 @@
 warning('off')
 % Step 1: Read data from CSV into a table
-data = readtable('../python/diff_attack.csv');
+data = readtable('../csv/diff_attack.csv');
 
 window_size = 898;
 
@@ -36,7 +36,7 @@ end
 result_table = table(alpha_values, beta_values, gamma_values, delta_values, attack_value);
 
 % Save the table to a CSV file
-writetable(result_table, 'alpha_fit_values_attack.csv');
+writetable(result_table, '../csv/alpha_fit_values_attack.csv');
 
 %Previous 12min
 %Mean Alpha: 1.5217, Standard Deviation Alpha: 0.20864

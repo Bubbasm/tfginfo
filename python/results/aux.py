@@ -11,7 +11,7 @@ if __name__ == "__main__":
     predict = 3 # minutes
     winlen = 15 # minutes
 
-    file = open("diff_attack.csv", "w")
+    file = open("../csv/diff_attack.csv", "w")
 
     for win in range(0, len(df)//60-winlen, 1):
         dff = ugr_get_few_minutes(df, win, winlen)
