@@ -13,6 +13,7 @@ num_windows = floor(length(variable_to_fit)/window_size)-1;
 alpha_values = zeros(num_windows, 1);
 beta_values = zeros(num_windows, 1);
 gamma_values = zeros(num_windows, 1);
+delta_values = zeros(num_windows, 1);
 attack_value = zeros(num_windows, 1);
 % Loop through each window
 for i = 0:num_windows
@@ -26,14 +27,16 @@ for i = 0:num_windows
     % Store the parameters
     alpha_values(i+1) = pd1.alpha-pd2.alpha;
     beta_values(i+1) = pd1.beta-pd2.beta;
+    gamma_values(i+1) = pd1.gam-pd2.gam;
+    delta_values(i+1) = pd1.delta-pd2.delta;
     attack_value(i+1) = 1;
 end
 
 % Create a table with alpha and beta values
-result_table = table(alpha_values, beta_values, attack_value);
+result_table = table(alpha_values, beta_values, gamma_values, delta_values, attack_value);
 
 % Save the table to a CSV file
-writetable(result_table, 'alpha_beta_values_attack_2.csv');
+writetable(result_table, 'alpha_fit_values_attack.csv');
 
 %Previous 12min
 %Mean Alpha: 1.5217, Standard Deviation Alpha: 0.20864

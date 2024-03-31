@@ -2,8 +2,13 @@ from joblib import Parallel, delayed
 from diff_utils import *
 
 # good for increasing attack
+# def is_attack(m,s) -> bool:
+#     return (-1.0+96.7263*m-0.2394*s)>0
+
 def is_attack(m,s) -> bool:
-    return (-1.0+96.7263*m-0.2394*s)>0
+    # coefs of linear svm: [[66.69963352 -0.14607013]]
+    # intercept of linear svm: [-0.55759408]
+    return (66.69963352*m-0.14607013*s-0.55759408)>0.25
 
 # def is_attack(m,s) -> bool:
 #     return (-1.77+137*m-0.24*s)>0
