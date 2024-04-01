@@ -36,8 +36,7 @@ if __name__ == "__main__":
     # print(clf.coef_)
     # print(clf.intercept_)
 
-    x_min, x_max = X.min() - 1, X.max() + 1
-    
+    x_min, x_max = X.quantile(0.01)-1, X.quantile(0.99)+1
 
     h = .02  # step size in the mesh
     xx, yy = np.meshgrid(np.arange(x_min[parameters[0]], x_max[parameters[0]], h), np.arange(x_min[parameters[1]], x_max[parameters[1]], h))
@@ -45,7 +44,7 @@ if __name__ == "__main__":
     Z = Z.reshape(xx.shape)
 
     plt.contourf(xx, yy, Z, cmap=plt.cm.coolwarm, alpha=0.8)
-    scatter = plt.scatter(X[parameters[0]], X[parameters[1]], c=Y, cmap=plt.cm.coolwarm)
+    scatter = plt.scatter(X[parameters[0]], X[parameters[1]], c=Y, cmap=plt.cm.coolwarm, s=20, alpha=0.05)
 
     plt.xlim(xx.min(), xx.max())
     plt.ylim(yy.min(), yy.max())

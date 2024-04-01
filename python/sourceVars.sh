@@ -1,3 +1,3 @@
-export PYTHONPATH="/home/bubbango/tfgs/tfginfo/codigo/python"
-source /home/bubbango/tfgs/tfginfo/codigo/env/bin/activate
+export PYTHONPATH="/home/bubbango/tfgs/tfginfo/tfginfo/python"
+source /home/bubbango/tfgs/tfginfo/tfginfo/env/bin/activate
 
