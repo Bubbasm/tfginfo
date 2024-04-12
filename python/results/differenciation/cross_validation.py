@@ -8,9 +8,11 @@ def train_test_split_2(X, Y):
     randomPercentage = random.random()*0.8
     train_X = pd.concat([X[:int(len(X)*randomPercentage)], X[int(len(X)*(randomPercentage+0.2)):]])
     train_Y = pd.concat([Y[:int(len(X)*randomPercentage)], Y[int(len(X)*(randomPercentage+0.2)):]])
-    test_X = X[int(len(X)*randomPercentage):int(len(X)*(randomPercentage+0.2))]
-    test_Y = Y[int(len(X)*randomPercentage):int(len(X)*(randomPercentage+0.2))]
+    test_X = X[int(len(X)*randomPercentage)+900:-900+int(len(X)*(randomPercentage+0.2))]
+    test_Y = Y[int(len(X)*randomPercentage)+900:-900+int(len(X)*(randomPercentage+0.2))]
     return train_X, test_X, train_Y, test_Y
+
+# utilizar ventanas totalmente disjuntas o días distintos.
 
 if __name__ == "__main__":
     from utilities import *
@@ -28,16 +30,16 @@ if __name__ == "__main__":
     file1 = open("../csv/alpha_fit_normalized.csv", "r")
     df = pd.read_csv(file1, sep=",")
 
-    x1 = pd.Series([(float(x_new.mean().iloc[0]), float(x_new.std().iloc[0])) for x_new in [(df1[898*j+720:898*(j+1)] - df1[898*j:898*j+720].mean())/df1[898*j:898*j+720].std() for j in range(len(df1)//898)]])
-    x2 = pd.Series([(float(x_new.mean().iloc[0]), float(x_new.std().iloc[0])) for x_new in [(df2[898*j+720:898*(j+1)] - df2[898*j:898*j+720].mean())/df2[898*j:898*j+720].std() for j in range(len(df2)//898)]])
+    x1 = pd.Series([(float(x_new.mean().iloc[0]), float(x_new.std().iloc[0]), float(x_new.quantile(0.50).iloc[0])) for x_new in [(df1[898*j+720:898*(j+1)] - df1[898*j:898*j+720].mean())/df1[898*j:898*j+720].std() for j in range(len(df1)//898)]])
+    x2 = pd.Series([(float(x_new.mean().iloc[0]), float(x_new.std().iloc[0]), float(x_new.quantile(0.50).iloc[0])) for x_new in [(df2[898*j+720:898*(j+1)] - df2[898*j:898*j+720].mean())/df2[898*j:898*j+720].std() for j in range(len(df2)//898)]])
     # alternating x1 and x2
     xMeanStd = pd.concat([x1, x2], axis=0)
 
     # Add x1 and x2 to df
-    df["mean_values"], df["std_values"] = zip(*xMeanStd)
+    df["mean_values"], df["std_values"], df["q50_values"] = zip(*xMeanStd)
     df = df.dropna()
-    parameters = ["alpha_values", "beta_values", "gamma_values", "delta_values", "mean_values", "std_values"]
-    parameters = ["delta_values", "mean_values"]
+    parameters = ["alpha_values", "beta_values", "gamma_values", "delta_values", "mean_values", "std_values", "q50_values"]
+    # parameters = ["alpha_values", "beta_values", "gamma_values", "delta_values"]
 
     full_Y = df["attack_value"].astype(float)
     full_X = df[parameters].astype(float)
