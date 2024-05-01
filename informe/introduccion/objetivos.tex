@@ -1,2 +1,16 @@
-El objetivo de este trabajo es analizar los datos y resultados en los trabajos de fin de grado anteriores para poder desarrollar el algoritmo de Holt-Winters y mediante este algoritmo poder realizar un pronóstico de la manera en la que se va a comportar una serie temporal real, comprobar que esa predicción es correcta y poder detectar un ataque en caso de que se produzca.
+El objetivo de este trabajo es dar continuidad a las investigaciones realizadas por Benjamín en su
+\ac{TFG} titulado ``Detección de ciberataques de denegación de servicio mediante Funciones Características'' \cite{benjamin2021}
+y en su \ac{TFM} titulado ``Estudio de la predictibilidad del tráfico en Internet para la detección de anomalías sutiles'' \cite{benjamin2023}.
 
+Decir que queremos mejorar la precisino de detección de ataques de anomalías sutiles en la red
+basándonos únicamente en la cantidad de datos brutos que están circulando por la red. Este estudio
+ofrece una forma de detectar anomalías simples, sin necesidad de procesar muchos datos o de
+tener que filtrarlos previamente.
+Para ello, se utilizarán dos series temporales que contienen información
+sobre el ancho de banda en un enlace específico: una serie sin ataques (denominada como tráfico normal)
+y otra serie creada aplicando un ataque al tráfico normal (tráfico de ataque).
+
+El enfoque de este estudio consiste en detectar anomalías en la serie temporal del tráfico de red.
+Para lograr esto, se aplicarán modelos predictivos para series temporales, 
+como el método de Holt-Winters. También se estudiarán técnicas de estacionalización mediante diferenciación y normalización,
+ajustes a distribuciones $\alpha$-estables y la descomposición de la serie temporal basada en su estacionalidad.

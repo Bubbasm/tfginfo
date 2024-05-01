@@ -26,19 +26,23 @@ if __name__ == "__main__":
     file2 = open("../csv/diff_no_attack.csv", "r")
     df1 = pd.read_csv(file1, header=None)
     df2 = pd.read_csv(file2, header=None)
+    dff = pd.concat([df1, df2], axis=0)
 
     file1 = open("../csv/alpha_fit_normalized.csv", "r")
     df = pd.read_csv(file1, sep=",")
 
-    x1 = pd.Series([(float(x_new.mean().iloc[0]), float(x_new.std().iloc[0]), float(x_new.quantile(0.50).iloc[0])) for x_new in [(df1[898*j+720:898*(j+1)] - df1[898*j:898*j+720].mean())/df1[898*j:898*j+720].std() for j in range(len(df1)//898)]])
-    x2 = pd.Series([(float(x_new.mean().iloc[0]), float(x_new.std().iloc[0]), float(x_new.quantile(0.50).iloc[0])) for x_new in [(df2[898*j+720:898*(j+1)] - df2[898*j:898*j+720].mean())/df2[898*j:898*j+720].std() for j in range(len(df2)//898)]])
-    # alternating x1 and x2
-    xMeanStd = pd.concat([x1, x2], axis=0)
+    xMeanStd = pd.Series([(float(x_new.mean().iloc[0]), float(x_new.std().iloc[0])) for x_new in [(dff[898*j+720:898*(j+1)] - dff[898*j:898*j+720].mean())/dff[898*j:898*j+720].std() for j in range(len(dff)//898)]])
 
+    qt = 0.50
+    xPercentile = pd.Series([float(x_new.quantile(qt).iloc[0]) for x_new in [(dff[898*j+720:898*(j+1)])/dff[898*j:898*j+720].quantile(qt) for j in range(len(dff)//898)]])
+
+    qtStr = str(qt)[2:]
     # Add x1 and x2 to df
-    df["mean_values"], df["std_values"], df["q50_values"] = zip(*xMeanStd)
+    df["mean_values"], df["std_values"] = zip(*xMeanStd)
+    df["q0."+qtStr+"_values"] = xPercentile
+
     df = df.dropna()
-    parameters = ["alpha_values", "beta_values", "gamma_values", "delta_values", "mean_values", "std_values", "q50_values"]
+    parameters = ["alpha_values", "beta_values", "gamma_values", "delta_values", "mean_values", "std_values", "q0."+qtStr+"_values"]
     # parameters = ["alpha_values", "beta_values", "gamma_values", "delta_values"]
 
     full_Y = df["attack_value"].astype(float)

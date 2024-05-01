@@ -1,14 +1,16 @@
 \documentclass[epsbased,copyright,final,printable,covers,extendedindex,firstnumbered,tfg,gnuplot]{tfgtfmthesisuam}
 
+\usepackage{svg}
+
 \advisor{Jorge Enrique López de Vergara Méndez}
 \levelin{Ingeniería Informática}
-\copyrightdate{2020}
+\copyrightdate{2024}
 \title{Aplicación de técnicas de análisis de series temporales a tráfico de red}
 \author{Bhavuk Sikka Bajaj}
 
 \dedication{A mis padres, por su apoyo incondicional}
-\famouscite{}
-\prefacefile{inicio/prefacio}
+\famouscite{The goal of forecasting is not to predict the future \\but to tell you what you need to know to take meaningful action in the present \\[0.1em] \begin{flushright} Paul Saffo \end{flushright}}
+% \prefacefile{inicio/prefacio}
 \ackfile{inicio/agradecimientos}
 \resumenfile{inicio/resumen}
 \abstractfile{inicio/abstract}
@@ -28,39 +30,45 @@
 
 \begin{document}
 
+\input{otros/acronimos.tex}
+
 \chapter{Introducción\label{CAP:INTRODUCCION}}{introduccion/introduccion}
   \section{Motivación\label{SEC:MOTIVACION}}{introduccion/motivacion}
   \section{Objetivos\label{SEC:OBJETIVOS}}{introduccion/objetivos}
-  \section{Pase de realización\label{SEC:REALIZACION}}{introduccion/realizacion}
+  \section{Fases de realización\label{SEC:REALIZACION}}{introduccion/realizacion}
   \section{Organización de la memoria\label{SEC:ORGANIZACION}}{introduccion/organizacion}
 
 \chapter{Estado del arte\label{CAP:ESTADOARTE}}{estadoarte/estadoarte}
   \section{Ataques en la red\label{SEC:ATAQUES}}{estadoarte/ataques}
+  % trabajos previos
+  % mencionar simmross y copia https://apps.dtic.mil/sti/trecms/pdf/AD1143584.pdf
+  \section{Estudios anteriores de series temporales en tráfico de red\label{SEC:ESTUDIOS}}{estadoarte/estudios} % moverlo arriba
   \section{Datos utilizados en los estudios\label{SEC:DATOS}}{estadoarte/datos}
-  % añadir apartado de alfa-estables y tests adf que se realizan. Tambien una subsubseccion para la diferenciacion
-  \section{Series temporales\label{SEC:SERIESTEMPORALES}}{estadoarte/series}
   \section{Conclusion\label{SEC:EACONCLUSION}}{estadoarte/conclusion}
 
 \chapter{Análisis de datos\label{CAP:ANALISIS}}{analisis/analisis}
-  \section{Estudios anteriores de series temporales en tráfico de red\label{SEC:ESTUDIOS}}{analisis/estudios}
   \section{Herramientas de análisis\label{SEC:HERRAMIENTAS}}{analisis/herramientas}
   \section{Descripción de los datos\label{SEC:DESCRIPCION}}{analisis/descripcion}
   \section{Simulación de ataque\label{SEC:SIMULACION}}{analisis/simulacion}
   \section{Conclusion\label{SEC:ADCONCLUSION}}{analisis/conclusion}
 
-\chapter{Sistema y diseño\label{CAP:SISTEMA}}{sistema/sistema}
+\chapter{Diseño del sistema\label{CAP:SISTEMA}}{sistema/sistema}
+  \section{Estacionariedad de los datos\label{SEC:ESTACIONARIEDAD}}{sistema/estacionariedad}
   \section{Esquema de funcionamiento\label{SEC:ESQUEMA}}{sistema/esquema}
   \section{Conclusion\label{SEC:SDCONCLUSION}}{sistema/conclusion}
 
-\chapter{Desarrollo y pruebas\label{CAP:DESARROLLO}}{desarrollo/desarrollo}
+\chapter{Resultados obtenidos\label{CAP:DESARROLLO}}{desarrollo/desarrollo}
+  \section{Detección mediante la media\label{SEC:DETECCIONMEDIA}}{desarrollo/deteccionmedia}
+  \section{Detección mediante $\alpha$-estables\label{SEC:DETECCIONALFA}}{desarrollo/deteccionalfa}
+  \section{Detección combinada\label{SEC:DETECCION}}{desarrollo/deteccion}
   \section{Conclusion\label{SEC:DPCONCLUSION}}{desarrollo/conclusion}
-
+  % hacer plot de que ataques se detectan y cuales no
 \chapter{Conclusiones\label{CAP:CONCLUSIONES}}{conclusiones/conclusiones}
   \section{Trabajos futuros\label{SEC:FUTUROS}}{conclusiones/futuros}
 
 \appendix
 
-\chapter{Enlace a código\label{CAP:ACRONIMOS}}{anexos/anexoA}
+\chapter{Enlace a código\label{CAP:ANEXOA}}{anexos/anexoA}
 
 
 \end{document}

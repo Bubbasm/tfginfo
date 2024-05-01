@@ -209,6 +209,7 @@
 \fi
 
 \@ifpackageloaded{calc}{}{\RequirePackage{calc}}
+\@ifpackageloaded{lmodern}{}{\RequirePackage{lmodern}}
 \@ifpackageloaded{verbatim}{}{\RequirePackage{verbatim}}
 \@ifpackageloaded{alltt}{}{\RequirePackage{alltt}}
 \@ifpackageloaded{makeidx}{}{\RequirePackage{makeidx}}
@@ -561,16 +562,16 @@
 \facultylogo{}
 \faculty{}
 
-\if@epsbool \facultylogo{logoEPS} \facultylogowide{0.16\textwidth} \faculty{Escuela Politécnica Superior}\fi
-\if@cienciasbool \facultylogo{logoCiencias} \facultylogowide{0.32\textwidth} \faculty{Facultad de Ciencias} \fi
-\if@medicinabool \facultylogo{logoMedicina} \facultylogowide{0.32\textwidth} \faculty{Facultad de Medicina} \fi
-\if@enfermeriabool \facultylogo{logoMedicina} \facultylogowide{0.32\textwidth} \faculty{Escuela de Enfermería} \fi
-\if@fisioterapiabool \facultylogo{logoMedicina} \facultylogowide{0.32\textwidth} \faculty{Escuela de Fisioterapia} \fi
-\if@psicologiabool \facultylogo{logoPsicologia} \facultylogowide{0.32\textwidth} \faculty{Facultad de Psicología} \fi
-\if@filosofiabool \facultylogo{logoFilosofia} \facultylogowide{0.16\textwidth} \faculty{Facultad de Filosofia y Letras} \fi
-\if@profesoradobool \facultylogo{logoProfesorado} \facultylogowide{0.32\textwidth} \faculty{Facultad de Filosofia y Letras} \fi
-\if@derechobool \facultylogo{logoDerecho} \facultylogowide{0.32\textwidth} \faculty{Facultad de Derecho} \fi
-\if@economicasbool \facultylogo{logoEconomicas} \facultylogowide{0.36\textwidth} \faculty{Facultad de Ciencias Económicas y Empresariales} \fi
+\if@epsbool \facultylogo{logos/logoEPS} \facultylogowide{0.16\textwidth} \faculty{Escuela Politécnica Superior}\fi
+\if@cienciasbool \facultylogo{logos/logoCiencias} \facultylogowide{0.32\textwidth} \faculty{Facultad de Ciencias} \fi
+\if@medicinabool \facultylogo{logos/logoMedicina} \facultylogowide{0.32\textwidth} \faculty{Facultad de Medicina} \fi
+\if@enfermeriabool \facultylogo{logos/logoMedicina} \facultylogowide{0.32\textwidth} \faculty{Escuela de Enfermería} \fi
+\if@fisioterapiabool \facultylogo{logos/logoMedicina} \facultylogowide{0.32\textwidth} \faculty{Escuela de Fisioterapia} \fi
+\if@psicologiabool \facultylogo{logos/logoPsicologia} \facultylogowide{0.32\textwidth} \faculty{Facultad de Psicología} \fi
+\if@filosofiabool \facultylogo{logos/logoFilosofia} \facultylogowide{0.16\textwidth} \faculty{Facultad de Filosofia y Letras} \fi
+\if@profesoradobool \facultylogo{logos/logoProfesorado} \facultylogowide{0.32\textwidth} \faculty{Facultad de Filosofia y Letras} \fi
+\if@derechobool \facultylogo{logos/logoDerecho} \facultylogowide{0.32\textwidth} \faculty{Facultad de Derecho} \fi
+\if@economicasbool \facultylogo{logos/logoEconomicas} \facultylogowide{0.36\textwidth} \faculty{Facultad de Ciencias Económicas y Empresariales} \fi
 
 
 \def\setnames{
@@ -2727,7 +2728,7 @@
 
 	\gantttitle[
 	title label node/.append style={below left=3.38\myem and 1.5\myex}
-	]{Semana:}{1} \\
+	]{Quincena:}{1} \\
 	\gantttitlelist{#1,...,#2}{1} \\
 }
 {
@@ -3431,7 +3432,7 @@ coordinates {(#1,0) (#2,0)};
 		\hfill
 		\logopgfimage[height=0.08\textheight]{\@facultylogo}
 		\hspace*{0.005\textwidth}
-		\logopgfimage[height=0.08\textheight]{logoUAM}
+		\logopgfimage[height=0.08\textheight]{logos/logoUAM}
 		\hfill
 		\vspace*{0.05\textheight}
 		\leveltext
@@ -3462,7 +3463,7 @@ coordinates {(#1,0) (#2,0)};
 		\hfill
 		\logopgfimage[height=0.08\textheight]{\@facultylogo}
 		\hspace*{0.005\textwidth}
-		\logopgfimage[height=0.08\textheight]{logoUAM}
+		\logopgfimage[height=0.08\textheight]{logos/logoUAM}
 		\hfill
 		\vspace*{0.05\textheight}
 		\leveltext

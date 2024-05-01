@@ -1,0 +1,51 @@
+% TODO: comparar los trabajos de benjamin2023, strelkovskaya2019, cabornero2021, mateo2013, muelas2015
+Para poder realizar una investigación de valor, es necesario presentar los estudios previos que han abordado la detección de anomalías en tráfico de red mediante el uso de series temporales. Como continuación del \ac{TFM} de Benjamín, esta investigación utiliza trabajos relacionados que han sido de gran interés para comprender y avanzar en este campo. Además, durante la realización de este trabajo se han encontrado otros estudios que han abordado la detección de anomalías en tráfico de red utilizando diferentes enfoques y técnicas. A continuación, se presentan algunos de estos estudios y se discuten sus contribuciones y hallazgos.
+
+\subsection{$\alpha$-estables} % benjamin2023, mateo2013
+La utilización de distribuciones $\alpha$-estables ha sido un enfoque importante en la detección de anomalías en el tráfico de red, como se discute en los trabajos de Benjamin \cite{benjamin2023} y Mateo \cite{mateo2013}.
+
+Benjamin propone una novedosa técnica de detección de anomalías sutiles que combina modelos predictivos de series temporales basados en redes neuronales recurrentes con estadísticos, partiendo de la premisa de que el tráfico sigue una distribución $\alpha$-estable.
+Esta técnica aprovecha las capacidades de las \ac{RNN} para capturar patrones temporales complejos en el tráfico de red. Al utilizar una distribución $\alpha$-estable como referencia para modelar el comportamiento usual del tráfico, la detección de anomalías se basa en identificar desviaciones significativas de este modelo esperado.
+
+Por otro lado, el trabajo de Mateo, también se centra en el modelado del tráfico de red utilizando distribuciones $\alpha$-estables. Se comparan parámetros obtenidos de datos de tráfico recopilados a través de protocolos como SNMP y NetFlow, con el objetivo de entender mejor las características estadísticas del tráfico y su capacidad para ajustarse a distribuciones $\alpha$-estables.
+
+Ambos estudios destacan la importancia y la utilidad de las distribuciones $\alpha$-estables en la modelización y detección de anomalías en el tráfico de red. Estas distribuciones proporcionan un marco teórico robusto para caracterizar el comportamiento del tráfico, y permiten identificar anomalías mediante la comparación con un modelo de referencia.
+
+\subsection{\textit{B-Splines}} % strelkovskaya2019
+Una \textit{B-Spline} (\textit{Basis Spline}) es una función matemática utilizada para aproximar y suavizar datos mediante una combinación lineal de funciones \textit{spline} base locales. Cada función \textit{spline} base es un polinomio definido en un intervalo específico y se utiliza para definir segmentos suaves de una curva. La \textit{B-Spline} completa se forma al combinar estas funciones spline base de manera suave y continua, proporcionando una representación flexible de datos y curvas.
+
+El uso de \textit{B-Splines} es un tema destacado en el estudio de Strelkovskaya \cite{strelkovskaya2019}, que trata sobre la predicción del tráfico autosemejante en redes móviles.
+En su investigación, Strelkovskaya propone un método de extrapolación de datos futuros basado en diversas funciones \textit{spline}, incluyendo \textit{B-Splines} lineales, cúbicas y cúbicas \textit{B-Spline}. Estas funciones \textit{spline} se utilizan para predecir el tráfico autosemejante fuera de los períodos de transmisión de datos, aprovechando la capacidad de las \textit{B-Splines} para modelar de manera flexible y suave los patrones complejos presentes en el tráfico de red.
+
+Particularmente, Strelkovskaya destaca la eficacia de las \textit{B-Splines} cúbicas en mejorar la precisión de la predicción del tráfico autosemejante. Al utilizar \textit{B-Splines}, su estudio demuestra que es posible realizar pronósticos precisos tanto a corto como a largo plazo, lo que resulta relevante para la gestión eficiente de las redes móviles y la detección anticipada de posibles anomalías en el tráfico.
+
+\subsection{FDA} % muelas2015
+El \ac{FDA} es una técnica que se utiliza para estudiar y analizar conjuntos de datos que pueden ser vistos como funciones, donde cada observación representa una función suave definida en un dominio continuo, como el tiempo.
+Permite tratar las observaciones como muestras de funciones, lo que permite aplicar métodos estadísticos y matemáticos para caracterizar y entender la variabilidad en las funciones. Algunas aplicaciones comunes de FDA incluyen el modelado de curvas suaves, la comparación de tendencias temporales, y la detección de patrones o anomalías en datos funcionales.
+
+En el trabajo de Muelas \cite{muelas2015} se utilizó FDA para analizar patrones de comportamiento de redes a través del tiempo, tratando las medidas de red como funciones continuas y aplicando técnicas específicas para caracterizar y comprender la dinámica de la actividad de red. Esto ha sido parte integral del enfoque para reducir la dimensionalidad de los datos y detectar anomalías en el tráfico de red.
+
+\subsection{Suavizado exponencial de Holt-Winters} % cabornero2021
+El suavizado exponencial de Holt-Winters es una extensión del método de suavizado exponencial básico que incorpora componentes de tendencia y estacionalidad. Este método se utiliza comúnmente para series de tiempo que muestran variaciones estacionales regulares, como datos de tráfico de red, datos económicos mensuales o trimestrales, entre otros.
+
+Las principales características del suavizado exponencial de Holt-Winters incluyen:
+\begin{itemize}
+    \item \textbf{Componente de Nivel (\textit{Level})}: Representa el nivel base o promedio de la serie temporal.
+    \item \textbf{Componente de Tendencia (\textit{Trend})}: Captura la dirección y la tasa de cambio de la serie temporal a lo largo del tiempo.
+    \item \textbf{Componente de Estacionalidad (\textit{Seasonality})}: Modela las fluctuaciones periódicas o estacionales en la serie temporal.
+\end{itemize}
+El método de Holt-Winters utiliza fórmulas de suavizado exponencial para actualizar y estimar estos componentes en cada período de tiempo, permitiendo realizar pronósticos futuros basados en la información histórica de la serie temporal. 
+
+En el contexto del trabajo de Cabornero \cite{cabornero2021} el suavizado exponencial de Holt-Winters es una técnica de pronóstico utilizada para modelar y predecir series temporales, especialmente aquellas que exhiben patrones estacionales.Esto permite analizar y anticipar patrones estacionales, e incluso tendencias en el comportamiento del tráfico.
+
+Además, el método se puede ajustar según tres parámetros de suavizado: $\alpha$ para el nivel, $\beta$ para la tendencia y $\gamma$ para la estacionalidad. Estos parámetros controlan la influencia de las observaciones pasadas y la velocidad de adaptación a los cambios en los componentes de la serie temporal. La selección óptima de estos parámetros puede compararse con el ajuste de parámetros en otros algoritmos de optimización, como el descenso de gradiente o el simulated annealing. Al igual que en estos métodos, donde se busca ajustar los parámetros de manera que optimicen una función objetivo, en Holt-Winters buscamos configurar $\alpha$, $\beta$, y $\gamma$ para minimizar el error en las predicciones de la serie temporal.
+
+\subsubsection{Descenso de gradiente} % rairan2014two
+El proceso de descenso de gradiente implica calcular la derivada (gradiente) de la función objetivo con respecto a los parámetros, y luego actualizar los parámetros multiplicando el gradiente por una tasa de aprendizaje (\textit{learning rate}) y restando este producto del valor actual de los parámetros. Este proceso se repite hasta que se alcanza una convergencia o se cumple un criterio de parada predefinido.
+
+El algoritmo funciona ajustando iterativamente los parámetros de la función en la dirección opuesta al gradiente de la función en el punto actual, lo que conduce a pasos sucesivos hacia el mínimo local o global. En este trabajo se ha estudiado este algoritmo en el artículo de Rairán \cite{rairan2014two}, donde se propone un enfoque para estimar el periodo de una señal discreta, y adaptado para ajustar los parámetros del suavizado exponencial de Holt-Winters.
+
+\subsubsection{\textit{Simmulated Annealing}} % rairan2014two
+\textit{Simmulated Annealing}, o recocido simulado en Español, es una técnica de optimización probabilística utilizada para encontrar soluciones aproximadas a problemas de optimización combinatoria.
+En el artículo de Rairan se presenta un algoritmo de \textit{Simulated Annealing} para encontrar los mejores candidatos de periodo en señales discretas, explorando el espacio de periodos posibles de manera más eficiente que métodos determinísticos como el descenso de gradiente.
+En nuestro caso, al igual que el descenso de gradiente, este algoritmo se ha adaptado para ajustar los parámetros del suavizado exponencial de Holt-Winters.
