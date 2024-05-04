@@ -1,12 +1,86 @@
-TODO: Introducir que utilizamos la escationarizacion obtenida mediante la diferenciacion de los datos, y ahora aplicamos las pruebas realizadas por Benjamin en su estudio
+Hemos obtenido la estacionariedad de los datos mediante dos métodos de diferenciación en la sección \ref{SEC:ESTACIONARIEDAD}. Ahora vamos a introducir el tratado de datos propuesto por Benjamin en su estudio \cite{benjamin2019}, y otro método de normalización de los datos, para poder detectar una posible anomalía en el tráfico de red.
+
+% Decir por que elegimos ventanas de 15 minutos para analizar
+Se eligen ventanas de 15 minutos para analizar, ya que es un tiempo suficiente para detectar anomalías en el tráfico. Estos 15 minutos de tamaño de ventana equivalen a 900 puntos de datos, lo que nos permite realizar los ajustes de los apartados siguientes de manera eficiente.
+
+\subsection{Ajuste $\alpha$-estable}
+El ajuste de los datos a una distribución $\alpha$-estable es una parte esencial del análisis propuesto por Benjamín \cite{benjamin2021}. La hipótesis de Benjamin es que una serie estacionaria sigue un proceso de una distribución $\alpha$-estable, lo que permite modelar los datos y explorar su comportamiento bajo esta distribución.
+De esta forma, podemos ajustar los datos estacionarizados a una distribución $\alpha$-estable y podemos tomarlo como distribución base, con sus respectivos parámetros $\alpha$, $\beta$, $\gamma$ y $\delta$.
+Luego se puede comparar el ajuste de otros datos con la distribución base, y detectar si hay alguna anomalía en el tráfico de red, suponiendo que la distribución base no esta sujeta a un ataque.
+
+Para realizar este ajuste, utilizamos la función \texttt{fitdist} en MATLAB con el parámetro \texttt{'Stable'}. Este método es computacionalmente eficiente, y nos permite modelar la distribución de los datos y explorar su comportamiento bajo esta distribución para una gran cantidad de datos.
+
+\begin{figure}[Ajuste de los datos a una distribución $\alpha$-estable]{FIG:AJUSTEALPHASTABLE}{Ajuste de los datos a una distribución $\alpha$-estable}
+    \image{}{}{alfa_estable_hist.pdf}
+    \label{FIG:AJUSTEALPHASTABLE}
+\end{figure}
+
+En la figura \ref{FIG:AJUSTEALPHASTABLE} se muestra el ajuste de los datos a una distribución $\alpha$-estable. Se realiza el ajuste de los datos diferenciados con ambos métodos, bajo los escenarios sin ataque, con un ataque de pico y un ataque incremental. En azul se muestran los datos reales, y en naranja un muestreo de la distribución $\alpha$-estable ajustada. Este muestreo tiene el mismo número de observaciones que la serie diferenciada.
+Se observa que la escala de los datos es muy amplia, por el orden de $10^7$, por lo que el ajuste no es óptimo. Por ello propondremos un método de normalización de los datos en la siguiente sección.
 
 \subsection{Normalización de los datos}
 
-TODO: También proponemos otro método para comparar los datos de un tráfico de red de una ventana fija, que es la normalización de los datos. 
-Hablar sobre que es la normalización de los datos cuando se tienen datos discretos. Hablar de que efectivamente se puede aplicar este método gracias a la estacionariedad de los datos
-y que además, como cada ventana se compone de muchos puntos (898), es correcto hacerlo
+También proponemos otro método para comparar los datos del tráfico de red en ventanas fijas, mediante la normalización de los datos. La normalización es un proceso que permite escalar los datos para que se encuentren dentro de un rango específico, facilitando la comparación entre diferentes conjuntos de datos.
 
-\subsection{Ajuste $\alpha$-estable}
+En este apartado vamos a explorar dos métodos de detección de anomalías. Uno de ellos consiste en el ajuste de los datos a una distribución $\alpha$-estable, propuesto por Benjamin \cite{benjamin2021}. El otro método consiste en la comparación de la tipificación de diferentes ventanas de tráfico.
 
-TODO: hablar que se ha tenido que utiizar MATLAB para realizar el ajuste de los datos a una distribución $\alpha$-estable, mediante el uso de la función \texttt{fitdist}, con parametro \texttt{'Stable'}.
+\begin{figure}[Ventana ejemplo de 15 minutos sobre la que se realiza el análisis]{FIG:VENTANA15MIN}{Ventana ejemplo de 15 minutos sobre la que se realiza el análisis}
+    \image{}{}{ventana_15min.pdf}
+    \label{FIG:VENTANA15MIN}
+\end{figure}
 
+En la figura \ref{FIG:VENTANA15MIN} se muestra una ventana de 15 minutos sobre la que se realiza el análisis. Este análisis tendrá en consideración los primeros 12 minutos del tráfico como ventana de referencia, para luego predecir sobre los 3 minutos siguientes si se produce alguna anomalía. En la figura se separan las ventanas de referencia y de predicción con una línea vertical punteada. El objetivo es detectar cualquier discrepancia significativa en el comportamiento del tráfico de red en los 3 minutos siguientes, en comparación con los 12 minutos anteriores.
+
+\subsubsection{Normalizando los datos con la distribución $\alpha$-estable}\label{SUBSEC:NORMALIZACIONALPHASTABLE}
+
+\begin{figure}[Ajuste de los datos a una distribución $\alpha$-estable normalizando los datos]{FIG:AJUSTEALPHASTABLENORM}{Ajuste de los datos a una distribución $\alpha$-estable normalizando los datos}
+    \image{}{}{alfa_estable_norm_hist.pdf}
+    \label{FIG:AJUSTEALPHASTABLENORM}
+\end{figure}
+
+Como vimos en la figura \ref{FIG:AJUSTEALPHASTABLE}, los datos se ajustan bien a una distribución $\alpha$-estable. Sin embargo, los datos no están normalizados, lo que dificulta la comparación de los datos. Por ello, normalizamos los datos con la distribución $\alpha$-estable ajustada como se explica en el libro ``Univariate Stable Distributions'' \cite{nolan2020univariate}. Sea $X$ una variable aleatoria con distribución $\alpha$-estable $S(\alpha, \beta, \gamma, \delta)$, entonces la variable aleatoria $Y = (X - \delta) / \gamma$ tiene distribución $\alpha$-estable $S(\alpha, \beta, 1, 0)$.
+
+Aplicando este método de normalización, repetimos el ajuste de distribución $\alpha$-estable a los datos normalizados. En la figura \ref{FIG:AJUSTEALPHASTABLENORM} se muestra el ajuste de los datos normalizados a una distribución $\alpha$-estable. Al igual que en la figura \ref{FIG:AJUSTEALPHASTABLE}, se realiza el ajuste de los datos diferenciados con los métodos de diferenciación de primer orden y mediante convolución, bajo los escenarios sin ataque, con un ataque de pico y un ataque incremental. En azul se muestran los datos reales normalizados, y en naranja un muestreo de la distribución $\alpha$-estable ajustada normalizada.
+
+\begin{table}[Ajuste de los datos a una distribución $\alpha$-estable normalizando los datos, $\gamma = 1$ y $\delta = 0$]{TAB:AJUSTEALPHASTABLENORM}{Ajuste de los datos a una distribución $\alpha$-estable normalizando los datos, $\gamma = 1$ y $\delta = 0$}
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \textbf{Método} & \textbf{Sin ataque} & \textbf{Con ataque de pico} & \textbf{Con ataque incremental} \\
+        \hline
+        Diferenciación de primer orden & \begin{tabular}{@{}c@{}}$\alpha = 1.2267$ \\ $\beta = -0.0214$\end{tabular} & \begin{tabular}{@{}c@{}}$\alpha = 1.2218$ \\ $\beta = -0.0305$\end{tabular} & \begin{tabular}{@{}c@{}}$\alpha = 1.2269$ \\ $\beta = -0.0200$\end{tabular} \\
+        \hline
+        Convolución & \begin{tabular}{@{}c@{}}$\alpha = 1.3796$ \\ $\beta = 0.0306$\end{tabular} & \begin{tabular}{@{}c@{}}$\alpha = 1.3732$ \\ $\beta = 0.0287$\end{tabular} & \begin{tabular}{@{}c@{}}$\alpha = 1.3796$ \\ $\beta = 0.0330$\end{tabular} \\
+        \hline
+    \end{tabular}
+\end{table}
+
+En la tabla \ref{TAB:AJUSTEALPHASTABLENORM} se muestran los parámetros $\alpha$ y $\beta$ de la distribución $\alpha$-estable ajustada a los datos normalizados. Los parámetros $\gamma$ y $\delta$ son fijos en 1 y 0 respectivamente, gracias a la normalización.
+
+Ahora que los datos están normalizados, podemos comparar los ajustes $\alpha$-estable de diferentes ventanas de tráfico para detectar posibles anomalías en el tráfico de red. El análisis propuesto consiste en comparar el ajuste $\alpha$-estable de una ventana de 12 minutos con el ajuste $\alpha$-estable de los 3 minutos siguientes, con el objetivo de identificar cualquier discrepancia significativa en el comportamiento del tráfico.
+
+La idea detrás de esta comparación es verificar si existe una diferencia sustancial en la distribución $\alpha$-estable entre las dos ventanas de tiempo consecutivas. Si observamos cambios abruptos o anómalos en los parámetros $\alpha$, $\beta$, $\gamma$, o $\delta$ entre estas dos ventanas, podría indicar la presencia de una anomalía en el tráfico de red durante ese período.
+
+\subsubsection{Normalizando los datos mediante la tipificación}
+
+Otro método de normalización de los datos es la tipificación. La tipificación es un método comúnmente utilizado en el análisis de series temporales para hacer que los datos sean comparables. Consiste en restar la media y dividir por la desviación estándar de los datos. En este contexto, la tipificación es particularmente útil para hacer que los datos sean comparables y explorar su comportamiento.
+
+\begin{figure}[Normalización de los datos mediante la tipificación]{FIG:ESTANDARIZACIONHIST}{Normalización de los datos mediante la tipificación}
+    \image{}{}{estandarizacion_hist.pdf}
+    \label{FIG:ESTANDARIZACIONHIST}
+\end{figure}
+
+En la figura \ref{FIG:ESTANDARIZACIONHIST} se muestra la normalización de los datos mediante la tipificación. Se observa que los datos estandarizados tienen una media de 0 y una desviación estándar de 1, lo que facilita la comparación de los datos. 
+Al igual que en el apartado \ref{SUBSEC:NORMALIZACIONALPHASTABLE}, podemos comparar la tipificación de diferentes ventanas de tráfico para detectar posibles anomalías en el tráfico de red. 
+
+Como se comprobado la estacionariedad de los datos de la ventana de 15 minutos, podemos afirmar que sigue un proceso estacionario, es decir, que la media y la varianza de los datos no cambian con el tiempo. Por tanto, podemos asumir que, si no hay ningún ataque en el tráfico de red, la distribución de los datos de la ventana de 12 minutos es la misma que la de los 3 minutos siguientes.
+Bajo estas condiciones, proponemos el siguiente proceso de detección de anomalías:
+\begin{enumerate}
+    \item Obtener la media $\mu$ y desviación estándar $\sigma$ de la ventana de 12 minutos.
+    \item Tipificar la ventana de 3 minutos con la media y desviación estándar obtenidas en el paso anterior.
+    \item Comparar la tipificación de los datos de la ventana de 3 minutos con una distribución normal estándar.
+    
+    \begin{enumerate}
+        \item Bajo la hipótesis de que no hay ataque en el tráfico de red, la tipificación de los datos de la ventana de 3 minutos debería seguir una distribución normal estándar, es decir, una distribución con media 0 y desviación estándar 1.
+        \item Si la media y/o la desviación estándar de la tipificación de los datos de la ventana de 3 minutos difieren significativamente de 0 y 1 respectivamente, podríamos concluir que hay una anomalía en el tráfico de red durante ese período. En este caso, hay que definir un umbral para determinar cuándo una diferencia es significativa.
+    \end{enumerate}
+\end{enumerate}

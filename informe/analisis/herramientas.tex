@@ -1,1 +1,13 @@
-TODO: empezar
+Las herramientas predominantes en el estudio fueron MATLAB y Python. A continuación, se describen las tareas más importantes realizadas con cada una de ellas:
+
+\begin{itemize}
+\item \textbf{MATLAB:} Se empleó para analizar los estudios de Stresklovaya, aunque no se obtuvieron resultados significativos. Además, MATLAB se utilizó para realizar ajustes de datos a distribuciones $\alpha$-estables debido a la complejidad del algoritmo implementado en Python, que requería un tiempo considerable para completar los ajustes.
+\item \textbf{Python:} Fue la principal herramienta utilizada para realizar diversas pruebas y análisis en el estudio. Se utilizaron librerías como numpy, pandas, statsmodels y sklearn para el tratamiento de series temporales y otras utilidades. Las pruebas realizadas en Python incluyeron:
+\begin{itemize}
+    \item Tests de estacionariedad: \ac{ADF} \cite{dickey1979distribution}, \ac{KPSS} \cite{kwiatkowski1992testing} y \ac{K-S} \cite{kolmogorov1933sulla}.
+    \item Diferenciación de series que se abordará más adelante en el estudio.
+    \item Uso de \textit{wavelets} para el análisis de series temporales.
+    \item Descomposición de series utilizando la función \texttt{seasonal\_decompose}.
+\end{itemize}
+\end{itemize}
+

@@ -1,16 +1,3 @@
-from holt_winters import *
-import numpy as np
-
-def smooth(a,WSZ):
-    # a: NumPy 1-D array containing the data to be smoothed
-    # WSZ: smoothing window size needs, which must be odd number,
-    # as in the original MATLAB implementation
-    out0 = np.convolve(a,np.ones(WSZ,dtype=int),'valid')/WSZ    
-    r = np.arange(1,WSZ-1,2)
-    start = np.cumsum(a[:WSZ-1])[::2]/r
-    stop = (np.cumsum(a[:-WSZ:-1])[::2]/r)[::-1]
-    return np.concatenate((  start , out0, stop  ))
-
 if __name__ == "__main__":
     from datetime import datetime
     from matplotlib.widgets import Slider
@@ -19,80 +6,47 @@ if __name__ == "__main__":
     import pandas as pd
     import numpy as np
     import time
+    from utilities import *
+    from holt_winters import *
+    import numpy as np
 
 
     segsInDay = 86400
-    movingAvgWindow = 60*10 + 1
+    movingAvgWindow = 60*10
 
-    df0 = pd.read_csv(r'../../datasets/ugr16/june_week2_csv/BPSyPPS.txt', sep=',', names=["Date", "Bitrate", "Packet rate"])
-    # df1 = pd.read_csv(r'../../datasets/ugr16/june_week2_csv/BPSyPPS.txt', sep=',', names=["Date", "Bitrate", "Packet rate"])
-    # Add "Bitrate" and "Packet rate" in df0 for values of df1 that match on "Date"
-    # df1 = df1[df1["Date"] > df0["Date"][len(df0)-1]]
-    df = pd.concat([df0], ignore_index=True)
-    df["Date"] = pd.to_datetime(df["Date"], unit='s')
+    df1 = ugr_load_data("june", 2)
+    df2 = ugr_load_data("june", 3)
 
-    dfNew = df
-    # dfNew = df[df["Date"][0] + pd.Timedelta(days=0.1) < df["Date"]]
-    # dfNew.reset_index(drop=True, inplace=True)
-    twodays = dfNew[dfNew["Date"] < dfNew["Date"][0] + pd.Timedelta(days=2)]
-    threedays = dfNew[dfNew["Date"] < dfNew["Date"][0] + pd.Timedelta(days=2) + pd.Timedelta(hours=1)]
-    param="Packet rate"
+    df = ugr_concat_data_list([df1, df2])
+    df = ugr_crop_few_minutes(df, 10)
 
+    train = ugr_get_first_n_days(df, 9)
+    test = ugr_get_first_n_days(df, 10)
 
-    lastTwoHours = twodays[param][-2*3600:]
-    lastTwoHours.reset_index(drop=True, inplace=True)
+    param="Bitrate"
+    lastTwoHours = train[param]
 
-    alpha, beta, gamma= 0.1, 0.0, 0.7
-    rate = triple_exponential_smoothing(lastTwoHours, 3600, alpha, beta, gamma, 3600)
-    fig, ax = plt.subplots(figsize=(16,9))
+    alpha, beta, gamma= 0.5408062471295899, 0.0, 0.1750058448315196
+    rate = triple_exponential_smoothing(lastTwoHours, segsInDay, alpha, beta, gamma, segsInDay)
+
+    fig, axs = plt.subplots(2, 1, figsize=(16,8))
     plt.subplots_adjust(left=0.1, bottom=0.1)
     
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%d/%m/%Y %H:%M:%S'))
     plt.gca().xaxis.set_major_locator(mdates.AutoDateLocator())
     plt.gcf().autofmt_xdate()
 
-    plt.title("Triple Exponential Smoothing")
-    plt.legend(["Leyenda"], fontsize="x-large")
-    plt.xlabel("Time")
-    plt.ylabel("Value")
+    fig.suptitle(f"Holt-Winters, alpha={alpha}, beta={beta}, gamma={gamma}")
+    fig.supxlabel("Time")
+    fig.supylabel("Value")
 
+    line1, = axs[0].plot(test["Date"][-segsInDay:], smooth(rate, movingAvgWindow)[-segsInDay:], color="#1368CE", label="Prediction Holt-Winters")
+    line2, = axs[0].plot(test["Date"][-segsInDay:], smooth(test[param], movingAvgWindow)[-segsInDay:], color="#26890C", label="Real")
+    line3, = axs[1].plot(test["Date"][-segsInDay:], smooth(rate-test[param], movingAvgWindow)[-segsInDay:], color="#E21B3C", label="Error")
 
-    line1, = plt.plot(threedays["Date"][-2*3600:], smooth(rate, movingAvgWindow)[-2*3600:], color="#1368CE", label="Holt-Winters")
-    line2, = plt.plot(threedays["Date"][-2*3600:], smooth(threedays[param], movingAvgWindow)[-2*3600:], color="#26890C", label="Real")
-    # line3, = plt.plot(threedays["Date"][-2*3600:], smooth(rate - threedays[param], movingAvgWindow)[-2*3600:], color="#E21B3C", label="Error")
-    # print("%.3E"%(np.sqrt(sum((threedays[param][-segsInDay:]-rate[-segsInDay:])**2))))
-    
+    print("MSE: ", "{:.2E}".format(np.mean(((rate-test[param])[-segsInDay:])**2)))
 
-    # axcolor = 'lightgoldenrodyellow'
-    # axalpha = plt.axes([0.1, 0.1, 0.65, 0.03], facecolor=axcolor)
-    # axbeta = plt.axes([0.1, 0.05, 0.65, 0.03], facecolor=axcolor)
-    # axgamma = plt.axes([0.1, 0.00, 0.65, 0.03], facecolor=axcolor)
-    # s_alpha = Slider(axalpha, 'Alpha', 0.0, 1.0, valinit=alpha)
-    # s_beta = Slider(axbeta, 'Beta', 0.0, 1.0, valinit=beta)
-    # s_gamma = Slider(axgamma, 'Gamma', 0.0, 1.0, valinit=gamma)
-    # def update(val):
-    #     alpha = s_alpha.val
-    #     beta = s_beta.val
-    #     gamma = s_gamma.val
-
-    #     # Recalculate rate with updated alpha, beta, and gamma
-    #     rate = triple_exponential_smoothing(twodays[param], segsInDay, alpha, beta, gamma, 3600)
-
-    #     # Update plot data
-    #     line1.set_ydata(smooth(rate, movingAvgWindow)[-2*3600:])
-    #     # line3.set_ydata(smooth(rate - threedays[param], movingAvgWindow)[-2*3600:])
-
-    #     # Print the error
-    #     print("%.3E" % (np.sqrt(sum((threedays[param] - rate) ** 2))))
-
-    #     # Redraw the plot
-    #     fig.canvas.draw_idle()
-    #     # plt.savefig("holt_winters"+str(int(time.time()))+".png")
-    # # Attach the update function to the sliders
-    # s_alpha.on_changed(update)
-    # s_beta.on_changed(update)
-    # s_gamma.on_changed(update)
-
-
-    plt.savefig("holt_winters.png")
-    plt.show()
+    axs[0].legend()
+    axs[1].legend()
+    plt.savefig("holt_winters_prediccion_three.svg")
+    # plt.show()

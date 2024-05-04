@@ -161,7 +161,7 @@ def ugr_simple_plot(df, smoothingWindow=60*10+1, plotColumns=["Bitrate", "Packet
                     color = colorPalette.pop(0)
                     colorPalette.append(color)
                     ax.plot(week["Date"], smooth(week[plotCol],
-                            smoothingWindow), label=plotCol+f" ({i})", color=color)
+                            smoothingWindow), label=plotCol, color=color)
                 ax.set_ylabel(plotCol)
                 ax.set_xlabel("Date" + " (week "+str(week["Date"][0].week)+")")
                 ax.xaxis.set_major_formatter(
@@ -213,7 +213,7 @@ def ugr_detect_periodicity_sf(df, T0, t1, paramMeasure="Bitrate"):
 def ugr_seasonal_decompose(df, paramMeasure="Bitrate"):
     from statsmodels.tsa.seasonal import seasonal_decompose
     result = seasonal_decompose(
-        x=df[paramMeasure], model='multiplicative', period=86400*7, extrapolate_trend='freq')
+        x=df[paramMeasure], model='multiplicative', period=86400, extrapolate_trend='freq')
     return result
 
 def ugr_seasonal_decompose_2(df, paramMeasure="Bitrate"):
@@ -284,4 +284,4 @@ def ugr_seasonal_plot(df, result, smoothingWindow = 60*10+1, separateWeeks=True)
     plt.xticks(rotation=45, ha="right", rotation_mode="anchor")
 
     fig.tight_layout()
-    plt.show()
+    return plt

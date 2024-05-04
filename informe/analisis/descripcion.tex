@@ -1,1 +1,104 @@
-TODO: empezar
+En esta sección, presentamos los datos utilizados en nuestro estudio, que abarcan un periodo de dos semanas de tráfico de red sin anomalías. Estos datos están representados como series temporales de \textit{bitrate} en la figura \ref{FIG:DATOS_BITRATE} y \textit{packetrate} en la figura \ref{FIG:DATOS_PACKETRATE}. Cada punto en las series temporales corresponde a una medición por segundo. Los datos se presentan en forma de flujos de red, por lo que es necesario procesarlos para convertirlos en datos de \textit{bitrate} y \textit{packetrate}. Sin embargo, para una representación más clara, se han suavizado los datos utilizando un promedio móvil de un minuto.
+
+En la Figura \ref{FIG:DATOS_BITRATE}, se observa un comportamiento periódico, mostrando un patrón de tráfico de red que se repite cada 24 horas, aunque con menor tráfico durante los fines de semana en comparación con los días laborables. Este patrón es común en los datos de tráfico de red, reflejando el comportamiento de los usuarios de la red en un entorno laboral. Además, se observa una doble joroba en los datos de cada día, correspondiente a los horarios de mañana y tarde. El mínimo local que se observa entre las dos jorobas se corresponde con las 2 de la tarde, cuando los usuarios salen a comer.
+
+En la figura \ref{FIG:DATOS_PACKETRATE}, se observa un comportamiento similar, pero con picos ocasionales muy pronunciados. Estos picos indican una cantidad elevada de paquetes transmitidos en un segundo, sin embargo, en los mismos periodos de tiempo, el \textit{bitrate} no aumenta de manera significativa. Esto
+puede deberse a la transmisión de paquetes pequeños, lo que resulta en un aumento del \textit{packetrate} sin un aumento significativo del \textit{bitrate}.
+Debido a esta variabilidad en el \textit{packetrate}, el análisis de este trabajo se centrará en el \textit{bitrate}.
+
+\begin{figure}[Representación del \textit{bitrate} de los datos de tráfico normal]{FIG:DATOS_BITRATE}{Representación del \textit{bitrate} de los datos de tráfico normal}
+    \image{}{}{general_plot_bitrate.pdf}
+    \label{FIG:DATOS_BITRATE}
+\end{figure}
+
+\begin{figure}[Representación del \textit{packetrate} de los datos de tráfico normal]{FIG:DATOS_PACKETRATE}{Representación del \textit{packetrate} de los datos de tráfico normal}
+    \image{}{}{general_plot_packetrate.pdf}
+    \label{FIG:DATOS_PACKETRATE}
+\end{figure}
+
+% Además, consideramos la descomposición en Wavelets para explorar la estructura de los datos en diferentes escalas. Sin embargo, decidimos no utilizar este método debido a la cantidad limitada de datos disponibles, lo que hace que la reducción de dimensionalidad no sea una prioridad en este contexto.
+
+\subsection{Estacionariedad de los datos}\label{SUBSEC:ESTACIONARIEDAD}
+
+Es importante destacar la estacionariedad de los datos, especialmente en comparación con el trabajo de Benjamin \cite{benjamin2023}. Benjamin realizó pruebas de estacionariedad utilizando los tests ADF y KPSS. Las hipótesis nulas del test ADF es la presencia de raíces unitarias (siendo la hipótesis alternativa que la serie temporal es estacionaria), mientras que la hipótesis nula del test KPSS es que los datos son estacionarios. Si el p-valor es menor que 0.05, entonces se rechaza la hipótesis nula. Esto implica que para que los datos sean estacionarios, el p-valor debe ser mayor que 0.05 en el test ADF y menor que 0.05 en el test KPSS.
+
+\begin{table}[Estacionariedad de los datos]{TAB:ESTACIONDATOSCRUDOS}{Estacionariedad de los datos}
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Test} & \textbf{P-valor medio} & \textbf{Porcentaje de ventanas no estacionarias} \\
+        \hline
+        ADF & $0.0595$ & $0.1804$ \\
+        KPSS & $0.0311$ & $0.7665$ \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Se han computado ambos tests para todas las ventanas de 15 minutos en los datos y se presentan los resultados de estos tests en la tabla \ref{TAB:ESTACIONDATOSCRUDOS}, que muestra que no podemos suponer estacionariedad de los datos en todas las ventanas. Por tanto, es necesario un estudio de la estacionarización de los datos antes de aplicar aplicar las técnicas de detección de anomalías propuestas por Benjamín.
+
+\subsection{Descomposición estacional}\label{SUBSEC:DESESTACIONALIDAD}
+
+Para analizar estos datos, primero aplicamos la técnica de descomposición estacional utilizando la función \texttt{seasonal\_decompose} de Python. Esta técnica nos permite visualizar y comprender la estructura estacional y tendencial de las series temporales. Se ha utilizado el modelo multiplicativo de la descomposición estacional, que se define como:
+\begin{equation}
+    \boxed{y(t)}= T(t) \times S(t) \times R(t)
+\end{equation}
+donde $y(t)$ es la serie temporal, $T(t)$ es la tendencia, $S(t)$ es la estacionalidad y $R(t)$ es el residuo. La tendencia representa la variación a largo plazo de los datos, la estacionalidad representa la variación periódica, que hemos fijado a 24 horas, y el residuo representa la variación aleatoria.
+
+\begin{figure}[Descomposición estacional diaria de los datos de tráfico normal]{FIG:SEASONALDECOMPOSEDAILY}{Descomposición estacional diaria de los datos de tráfico normal}
+    \image{}{}{seasonal_decompose_day.pdf}
+    \label{FIG:SEASONALDECOMPOSEDAILY}
+\end{figure}
+
+En la figura \ref{FIG:SEASONALDECOMPOSEDAILY}, se muestra la descomposición estacional de la serie temporal del \textit{bitrate}. Los componentes de la figura son los datos reales, la tendencia, la estacionalidad y el residuo. Para esta descomposición, se ha utilizado un periodo de 24 horas, lo que permite visualizar la variación diaria de los datos. En este caso, se observa un patrón semanal en el residuo, lo que indica que esta descomposición estacional no es perfecta; observamos asímismo que el residuo fluctúa entre 0.5 y 2.5. Por ello se ha realizado una descomposición estacional semanal.
+
+\begin{figure}[Descomposición estacional semanal de los datos de tráfico normal]{FIG:SEASONALDECOMPOSEDWEEK}{Descomposición estacional semanal de los datos de tráfico normal}
+    \image{}{}{seasonal_decompose_week.pdf}
+    \label{FIG:SEASONALDECOMPOSEDWEEK}
+\end{figure}
+
+En la figura \ref{FIG:SEASONALDECOMPOSEDWEEK}, se muestra la descomposición estacional de la serie temporal con un periodo de 7 días. En este caso, se observa una estacionalidad semanal clara, con un patrón de tráfico que se repite cada semana. Además, se observa que el residuo es más uniforme, variando entre 0.5 y 1.5, lo que indica que la descomposición estacional es más precisa.
+
+\subsection{Holt-Winters}
+
+Tras haber comprobado la estacionalidad de los datos mediante \texttt{seasonal\_decompose} en el apartado anterior, se observó que los datos de tráfico normal presentan una estacionalidad semanal, e incluso diaria con una reducción de tráfico durante los fines de semana.
+
+Por tanto, se ha aplicado el método de Holt-Winters para modelar y predecir los datos de tráfico normal. Se han realizado las pruebas tieniendo 9 días de datos de entrenamiento y 1 días de datos de test. También se han calculado los errores de predicción con el \ac{MSE}. Las figuras se han suavizado con un promedio móvil de 10 minutos para una mejor visualización.
+
+\begin{figure}[Predicción errática de los datos de tráfico normal con Holt-Winters]{FIG:HOLT_WINTERS_ERRATICO}{Predicción errática de los datos de tráfico normal con Holt-Winters}
+    \image{}{}{holt_winters_erratico.pdf}
+    \label{FIG:HOLT_WINTERS_ERRATICO}
+\end{figure}
+
+\begin{figure}[Mejor ajuste de los datos de tráfico normal con Holt-Winters, anulando el parámetro $\alpha$]{FIG:HOLT_WINTERS_MEJORAJUSTE}{Mejor ajuste de los datos de tráfico normal con Holt-Winters, anulando el parámetro $\alpha$}
+    \image{}{}{holt_winters_no_erratico.pdf}
+    \label{FIG:HOLT_WINTERS_MEJORAJUSTE}
+\end{figure}
+
+\begin{figure}[Predicción de los datos de tráfico normal con Holt-Winters, con MSE de $2.93\times 10^{15}$]{FIG:HOLT_WINTERS_PREDICCION_UNO}{Predicción de los datos de tráfico normal con Holt-Winters, con MSE de $2.93\times 10^{15}$}
+    \image{}{}{holt_winters_prediccion_one.pdf}
+    \label{FIG:HOLT_WINTERS_PREDICCION_UNO}
+\end{figure}
+
+Se realizaron pruebas con diferentes configuraciones de parámetros $\alpha$, $\beta$ y $\gamma$. Se observó que para valores altos de $\beta$ combinados con valores no nulos de $\alpha$, las predicciones divergen considerablemente, mostrando un comportamiento errático, como se observa en la figura \ref{FIG:HOLT_WINTERS_ERRATICO}. Al anular el parámetro $\alpha$, las predicciones se ajustan mejor a los datos de entrenamiento, como se ve en la figura \ref{FIG:HOLT_WINTERS_MEJORAJUSTE}, y su versión ampliada \ref{FIG:HOLT_WINTERS_PREDICCION_UNO}. Sin embargo, el error de predicción sigue siendo elevado, con un \ac{MSE} de $2.93\times 10^{15}$ en la zona de predicción.
+
+\begin{figure}[Predicción de los datos de tráfico normal con Holt-Winters, anulando el parámetro $\beta$]{FIG:HOLT_WINTERS_PREDICCION_DOS}{Predicción de los datos de tráfico normal con Holt-Winters, anulando el parámetro $\beta$, con \ac{MSE} de $1.99\times 10^{15}$}
+    \image{}{}{holt_winters_prediccion_two.pdf}
+    \label{FIG:HOLT_WINTERS_PREDICCION_DOS}
+\end{figure}
+
+Un valor bajo de $\alpha$ implica que el nivel estimado no se adapta directamente a los datos observados, lo que puede resultar en mayores errores de predicción dentro de la región donde se tienen datos disponibles. Sin embargo, se observó que las predicciones se ajustan mejor a los datos de test cuando se toma valores de $\alpha$ no nulos junto con valores de $\beta$ nulos, como se muestra en la figura \ref{FIG:HOLT_WINTERS_PREDICCION_DOS}. En este caso, el \ac{MSE} se reduce a $1.99\times 10^{15}$.
+
+Altos valores de $\gamma$ resultan en que la predicción se adhiera al período de estacionalidad especificado.
+Dado que la descomposición estacional del apartado \ref{SUBSEC:DESESTACIONALIDAD} mostró una fuerte estacionalidad semanal en los datos, se encontró que valores altos de $\gamma$ producen mejores predicciones, como hemos visto en los ejemplos anteriores.
+
+\subsubsection{\textit{Simulated Annealing}}
+
+\begin{figure}[Predicción de los datos de tráfico normal con Holt-Winters, con MSE de $1.85\times 10^{15}$]{FIG:HOLT_WINTERS_PREDICCION_TRES}{Predicción de los datos de tráfico normal con Holt-Winters, con \ac{MSE} de $1.85\times 10^{15}$}
+    \image{}{}{holt_winters_prediccion_three.pdf}
+    \label{FIG:HOLT_WINTERS_PREDICCION_TRES}
+\end{figure}
+
+Se aplicó \textit{Simulated Annealing} para minimizar el MSE en la predicción. Este enfoque logró reducir ligeramente el MSE para una ventana específica de predicción. Sin embargo, los mismos parámetros no se ajustaron bien para otras ventanas de predicción, mostrando cierta limitación en la generalización de los resultados. En la figura \ref{FIG:HOLT_WINTERS_PREDICCION_TRES}, se muestra un ejemplo de predicción con un MSE de $1.85\times 10^{15}$. Sin embargo, este enfoque no ha sido exitoso en general, ya que no ha logrado reducir el MSE de manera significativa en todas las ventanas de predicción.
+
+\subsection{Prophet}
+
+TODO: Describir Prophet y los resultados obtenidos, que no son muy conclusivos. Poner la grafica en png

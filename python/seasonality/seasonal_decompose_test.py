@@ -11,7 +11,7 @@ if __name__ == "__main__":
     # df = ugr_crop_few_minutes(df7, 150, 10)
 
     df = ugr_concat_data_list([
-                           df0, df1, df2,
+                            df0, df1, df2,
                         #    df3, df4, df5,
                             # df6, 
                             # df7,
@@ -21,9 +21,9 @@ if __name__ == "__main__":
                             ])
 
     # Crop 3 days starting from the second day
+    df = ugr_crop_few_minutes(df, 10)
     # df = ugr_get_first_n_days(df, 5)
-    # df = ugr_get_last_n_days(df, 2)
-    df = ugr_crop_few_minutes(df, 60*60)
+    df = ugr_get_last_n_days(df, 14)
 
     res1 = ugr_seasonal_decompose_2(df, paramMeasure="Bitrate")
 
@@ -36,4 +36,4 @@ if __name__ == "__main__":
     # print(len(res1.observed), len(res1.trend), len(res1.seasonal), len(res1.resid))
 
 
-    ugr_seasonal_plot(df, res1, smoothingWindow=60)
+    ugr_seasonal_plot(df, res1, smoothingWindow=60).show()

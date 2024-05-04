@@ -26,34 +26,36 @@ if __name__ == "__main__":
     from datetime import datetime
     import matplotlib.dates as mdates
     import pandas as pd
+    from utilities import *
+    import matplotlib.dates as mdates
+    
+    df1 = ugr_load_data("june", 2)
+    df2 = ugr_load_data("june", 3)
 
-    columns = ["Date", "Bitrate", "Packet rate"]
+    df = ugr_concat_data_list([df1, df2])
+    df = ugr_crop_few_minutes(df, 10)
 
-    df0 = pd.read_csv(r'../../datasets/ugr16/june_week1_csv/BPSyPPS.txt', sep=',', names=columns)
-    df1 = pd.read_csv(r'../../datasets/ugr16/june_week2_csv/BPSyPPS.txt', sep=',', names=columns)
-    df2 = pd.read_csv(r'../../datasets/ugr16/june_week3_csv/BPSyPPS.txt', sep=',', names=columns)
-    df3 = pd.read_csv(r'../../datasets/ugr16/july_week1_csv/BPSyPPS.txt', sep=',', names=columns)
-    df = pd.concat([df0, df1, df2, df3], ignore_index=True)
+    train = ugr_get_first_n_days(df, 10)
+    train = ugr_crop_few_minutes(train, 0, 23*60)
+    test = ugr_get_first_n_days(df, 11)
+    test = ugr_crop_few_minutes(test, 0, 23*60)
+
     #Definición de parámetros para la predicción
     segsInDay = 86400
-    valorventanaseg=segsInDay*5
     slen = segsInDay
     n_preds = segsInDay
     numero_de_periodos=20
-    diferencia_minima=1.743e10
     precision=int(1e2)
 
-    days_df = len(df) // segsInDay
-    logging.info("Days in dataframe %d" % (days_df))
+    param="Bitrate"
+    series=train[param].tolist()
+    valores=test[param][-n_preds:].tolist()
+    alpha_definitivo, beta_definitivo, gamma_definitivo = 0.9, 0.0, 0.9
+    diferencia_minima = 1.975e15
+    segsInDay = 86400
+    movingAvgWindow = 60*10
     t0 = time.time()
-    periodo = 0
-    param="Packet rate"
-    series=df[param][valorventanaseg+periodo*slen:2*valorventanaseg+periodo*slen].tolist()
-    valores=df[param][2*valorventanaseg+periodo*slen:2*valorventanaseg+periodo*slen+slen].tolist()
-    alpha_definitivo, beta_definitivo, gamma_definitivo = 0.72149, 0.00004, 0.17637
-
     while True:
-        logging.debug("Periodo: %d"% (periodo))      
         ###Creamos un array del tamaño de la serie que queremos pasar para calcular la predicción
         ##Carga de los datos para la predicción: La predicción se hace a partir del principio de la segunda ventana
         #Es necesario desplazar el inicio de la ventana en funcion del periodo que estamos calculando
@@ -63,15 +65,14 @@ if __name__ == "__main__":
         for T in np.linspace(1000,0,precision):
             #Generación de un punto aleatorio 
             alpha = random()
-            beta = random()
+            beta = 0.0
             gamma = random()
             result = triple_exponential_smoothing(series, slen, alpha, beta, gamma, n_preds)
 
-            #Nos quedamos  con los datos del período predicho
-            prediccion=np.array(np.array(result[valorventanaseg:]))
+            #Nos quedamos con los datos del período predicho
+            prediccion=np.array(np.array(result[-n_preds:]))
             #Calculamos la distancia entre los valores reales y los predichos
-            distancia=np.sqrt(sum((prediccion-valores)**2))
-            
+            distancia=np.mean(((prediccion-valores)**2))
     
             # Si el error es menor, nos quedamos con el nuevo punto
             if( (distancia<diferencia_actual) or
@@ -90,14 +91,28 @@ if __name__ == "__main__":
                     beta_definitivo = beta_actual
                     gamma_definitivo = gamma_actual 
                     with open("simmulatedAnnealing.txt", "a") as file1:
-                        file1.write("alpha, beta, gamma= %2.5f, %2.5f, %2.5f  , Distancia = %.3E\n"%
-                            (alpha_definitivo, beta_definitivo, gamma_definitivo, menor_diferencia))
-                logging.debug("T = %2d D = %.3E"% (T, diferencia_actual))
-            
+                        file1.write(f"alpha, beta, gamma= {alpha_definitivo}, {beta_definitivo}, {gamma_definitivo}  , Distancia = {menor_diferencia:.3E}\n")
+                    fig, axs = plt.subplots(2, 1, figsize=(16,8))
+                    plt.subplots_adjust(left=0.1, bottom=0.1)
+                    
+                    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%d/%m/%Y %H:%M:%S'))
+                    plt.gca().xaxis.set_major_locator(mdates.AutoDateLocator())
+                    plt.gcf().autofmt_xdate()
 
-            
-        logging.debug("Periodo %d -  alpha, beta, gamma= %2.5f, %2.5f, %2.5f  , Distancia = %.3E"%
-                            (periodo, alpha_definitivo, beta_definitivo, gamma_definitivo, menor_diferencia))
+                    fig.suptitle(f"Holt-Winters, alpha={alpha}, beta={beta}, gamma={gamma}")
+                    fig.supxlabel("Time")
+                    fig.supylabel("Value")
+
+                    line1, = axs[0].plot(test["Date"][-segsInDay:], smooth(result, movingAvgWindow)[-segsInDay:], color="#1368CE", label="Prediction Holt-Winters")
+                    line2, = axs[0].plot(test["Date"][-segsInDay:], smooth(test[param], movingAvgWindow)[-segsInDay:], color="#26890C", label="Real")
+                    line3, = axs[1].plot(test["Date"][-segsInDay:], smooth(result-test[param], movingAvgWindow)[-segsInDay:], color="#E21B3C", label="Error")
+
+                    print("MSE: ", "{:.2E}".format(np.mean(((result-test[param])[-segsInDay:])**2)))
+
+                    axs[0].legend()
+                    axs[1].legend()
+                    plt.savefig("holt_winters_prediccion_three.svg")
+                logging.debug("T = %2d D = %.3E"% (T, diferencia_actual))
 
         
     t1 = time.time()

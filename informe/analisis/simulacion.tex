@@ -1,1 +1,15 @@
-TODO: empezar
+Para simular un ataque de denegación de servicio, hemos generado un tráfico anómalo que consiste en un aumento del \textit{bitrate} durante un periodo de 2 minutos. Este ataque se puede simular en cualquier ventana que seleccionemos para analizar. Además, se plantean dos escenarios de ataque:
+\begin{itemize}
+    \item \textbf{Escenario 1}: El ataque produce un pico de tráfico en una ventana de tráfico normal.
+    \item \textbf{Escenario 2}: El ataque produce un incremento gradual del tráfico en una ventana de tráfico normal.
+\end{itemize}
+
+\begin{figure}[Simulación de un ataque de denegación de servicio en el \textit{bitrate} en una ventana de 15 minutos]{FIG:DATOS_BITRATE_ATAQUE}{Simulación de un ataque de denegación de servicio en el \textit{bitrate} en una ventana de 15 minutos}
+    \image{}{}{plot_attack.pdf}
+    \label{FIG:DATOS_BITRATE_ATAQUE}
+\end{figure}
+
+En la figura \ref{FIG:DATOS_BITRATE_ATAQUE}, se muestra en color rojo la simulación de un ataque de denegación de servicio en la ventana de las 10:00 a las 10:15 del día 6 de Junio de 2016. En este caso, se observa un pico de tráfico en el \textit{bitrate} aumenta el tráfico en 50 Mbps durante 2 minutos.
+En cambio, en color naranja, se muestra la simulación de un ataque correspondiente al escenario 2, aplicando un incremento gradual al \textit{bitrate}. En este caso se alcanza el máximo al final de la ventana, llegando a 60 Mbps en 2 minutos.
+
+El caso del escenario 2 es de especial interés ya que es más difícil de detectar por su naturaleza, ya que el incremento es gradual y no produce un pico de tráfico tan evidente como en el escenario 1. Por tanto, las pruebas de detección de anomalías se centrarán en este escenario.
