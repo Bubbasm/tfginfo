@@ -3138,13 +3138,13 @@ coordinates {(#1,0) (#2,0)};
 	\if@nonelistbool\empty\else
 		\if@alllistsbool
 			\@newschapter{\@ListsChapter}
-			\listofalgorithms{\@auxvaralgorithmindex}
-			\mylistof{\@auxvarcodeindex}{lol}
-			\if@languagespa \listoftextboxes{\@auxvartextboxindex} \fi
-	    \mylistof{\listequationname}{loe}
+			% \listofalgorithms{\@auxvaralgorithmindex}
+			% \mylistof{\@auxvarcodeindex}{lol}
+			% \if@languagespa \listoftextboxes{\@auxvartextboxindex} \fi
+	        \mylistof{\listequationname}{loe}
 			\mylistof{\listfigurename}{lof}
 			\mylistof{\listtablename}{lot}
-			\if@languagespa  \listoftextboxes{\@auxvartextboxindex} \fi
+			% \if@languagespa  \listoftextboxes{\@auxvartextboxindex} \fi
 		\else
 			\@newschapter{\@ListsChapter}
 			\if@algorithmsbool \listofalgorithms{\@auxvaralgorithmindex} \fi

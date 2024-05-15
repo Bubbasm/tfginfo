@@ -1,5 +1,3 @@
-warning('off')
-% Step 1: Read data from CSV into a table
 data = readtable('../python/ventana_test.csv');
 
 % Make alpha fit for x0_t0, x0_t1, x1_t0, x1_t1, x2_t0, x2_t1

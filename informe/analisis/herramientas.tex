@@ -1,12 +1,12 @@
 Las herramientas predominantes en el estudio fueron MATLAB y Python. A continuación, se describen las tareas más importantes realizadas con cada una de ellas:
 
 \begin{itemize}
-\item \textbf{MATLAB:} Se empleó para analizar los estudios de Stresklovaya, aunque no se obtuvieron resultados significativos. Además, MATLAB se utilizó para realizar ajustes de datos a distribuciones $\alpha$-estables debido a la complejidad del algoritmo implementado en Python, que requería un tiempo considerable para completar los ajustes.
-\item \textbf{Python:} Fue la principal herramienta utilizada para realizar diversas pruebas y análisis en el estudio. Se utilizaron librerías como numpy, pandas, statsmodels y sklearn para el tratamiento de series temporales y otras utilidades. Las pruebas realizadas en Python incluyeron:
+\item \textbf{MATLAB:} Se empleó para analizar los estudios de Stresklovaya \textit{et al.}, aunque no se obtuvieron resultados significativos. Además, MATLAB se utilizó para realizar ajustes de datos a distribuciones $\alpha$-estables, debido a la complejidad del algoritmo implementado en Python, que requería un tiempo considerable para completar los ajustes. En MATLAB, un ajuste de $898$ puntos tardaba $0.04$ segundos de media, mientras que en Python un ajuste de $10$ puntos tardaba tardaba $11$ segundos de media. No se pudo obtener una estimación del tiempo precisa para un ajuste con $898$ puntos en Python, puesto que el tiempo superaba $5$ minutos de ejecución.
+\item \textbf{Python:} Fue la principal herramienta utilizada para realizar diversas pruebas y análisis en el estudio. Se utilizaron librerías como \texttt{numpy}, \texttt{pandas}, \texttt{statsmodels} y \texttt{sklearn} para el tratamiento de series temporales y otras utilidades. Las pruebas realizadas en Python incluyeron:
 \begin{itemize}
-    \item Tests de estacionariedad: \ac{ADF} \cite{dickey1979distribution}, \ac{KPSS} \cite{kwiatkowski1992testing} y \ac{K-S} \cite{kolmogorov1933sulla}.
+    \item Tests de estacionariedad: \ac{ADF}~\cite{dickey1979distribution}, \ac{KPSS}~\cite{kwiatkowski1992testing} y \ac{K-S}~\cite{kolmogorov1933sulla}.
     \item Diferenciación de series que se abordará más adelante en el estudio.
-    \item Uso de \textit{wavelets} para el análisis de series temporales.
+    \item Uso de ondículas o \textit{wavelets} para el análisis de series temporales.
     \item Descomposición de series utilizando la función \texttt{seasonal\_decompose}.
 \end{itemize}
 \end{itemize}

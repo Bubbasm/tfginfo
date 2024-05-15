@@ -2,11 +2,19 @@ if __name__ == "__main__":
     from utilities import *
     from alfa_estable import *
 
-    df = residue_load_data("june_residue_mul")
+    df1 = ugr_load_data("june", 2)
+    df2 = ugr_load_data("june", 3)
 
-    df = residue_get_first_n_days(df, 2)
-    df = residue_get_last_n_days(df, 1)
-    df = residue_crop_few_minutes(df, 60*9)
+    df = ugr_concat_data_list([df1, df2])
+    dff = ugr_get_few_minutes(df, 0, 15)
 
+    from results.differenciation.diff_utils import diff_series
 
-    print(residue_levy_fit(df))
+    x_t = diff_series(dff, 1)
+
+    print(len(x_t))
+
+    from scipy.stats import levy_stable
+
+    print(levy_stable.fit(x_t[:10]))
+    

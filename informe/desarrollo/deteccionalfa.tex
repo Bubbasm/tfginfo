@@ -1,15 +1,15 @@
 Para la detección de anomalías mediante la comparación de distribuciones $\alpha$-estables, se han computado los ajustes de las distribuciones de las subventanas de 12 minutos tomadas como referencia. Como se describía en el apartado \ref{SUBSEC:NORMALIZACIONALPHASTABLE}, se ha normalizado los datos de la subventana de 3 minutos sujeta a un posible ataque.
-Posteriormente se ha ajustado la distribución de los datos normalizados de la subventana de 3 minutos.
+Posteriormente, se ha ajustado la distribución de los datos normalizados de la subventana de 3 minutos.
 
 \begin{figure}[Distribución de los valores del ajuste $\alpha$-estable]{FIG:SCATTERPLOTALFA}{Distribución de los valores del ajuste $\alpha$-estable}
     \image{}{}{scatter_plot_alfa_estable.pdf}
     \label{FIG:SCATTERPLOTALFA}
 \end{figure}
 
-En la figura \ref{FIG:SCATTERPLOTALFA} se muestra la distribución de los valores de $\alpha$, $\beta$, $\gamma$ y $\delta$ obtenidos en el ajuste de las subventanas de 3 minutos como se ha explicado. Los puntos o las barras de color rojo indican que la ventana estaba sujeta a un ataque, mientras que en color azul se indica que no lo estaba.
+En la figura~\ref{FIG:SCATTERPLOTALFA} se muestra la distribución de los valores de $\alpha$, $\beta$, $\gamma$ y $\delta$ obtenidos en el ajuste de las subventanas de 3 minutos como se ha explicado. Los puntos o las barras de color rojo indican que la ventana estaba sujeta a un ataque, mientras que en color azul se indica que no lo estaba.
 En diagonal observamos los histogramas de los parámetros, donde se muestra la distribución que siguen los valores obtenidos según estuvieran bajo ataque. En el resto de posiciones se muestran diagramas de dispersión entre dos parámetros. En los valores de $\alpha$ se observan múltiples valores que se repiten a menudo. Esto se debe a un artefacto en el cómputo del ajuste $\alpha$-estable.
 
-\begin{table}[Características de la distribución del parámtero $\delta$]{TAB:CARACDELTA}{Características de la distribución del parámtero $\delta$}
+\begin{table}[Características de la distribución del parámtero $\delta$]{TAB:CARACDELTA}{Características de la distribución del parámetro $\delta$}
     \begin{tabular}{|c|c|c|}
         \hline
         & Media & Desviación estándar \\
@@ -20,8 +20,8 @@ En diagonal observamos los histogramas de los parámetros, donde se muestra la d
     \end{tabular}
 \end{table}
 
-Destaca en esta figura cómo en la diagonal los valores de $\alpha$, $\beta$ y $\gamma$ siguen la misma distribición cuando hay un ataque que cuando no lo hay, mientras que la distribución del parámetro $\delta$ sí que varía. Esto es de esperar, ya que $\delta$ es el parámetro de localización y describe en qué valor está centrada la función
-densidad de probabilidad. Por tanto, si hay un ataque que supone un aumento en el tráfico, el centro de la distribución de los datos se desplazará a la derecha, lo que se reflejará en el parámetro $\delta$. En la tabla \ref{TAB:CARACDELTA} vemos que la media de los valores de $\delta$ está alrededor del $0$ independientemente de si hay un ataque o no, pero la desviación estándar de los valores de $\delta$ es mucho mayor cuando hay un ataque que cuando no lo hay. 
+Destaca en esta figura cómo en la diagonal los valores de $\alpha$, $\beta$ y $\gamma$ siguen la misma distribución cuando hay un ataque que cuando no lo hay, mientras que la distribución del parámetro $\delta$ sí que varía. Esto es de esperar, ya que $\delta$ es el parámetro de localización y describe en qué valor está centrada la función
+densidad de probabilidad. Por tanto, si hay un ataque que supone un aumento en el tráfico, el centro de la distribución de los datos se desplazará a la derecha, lo que se reflejará en el parámetro $\delta$. En la tabla~\ref{TAB:CARACDELTA} vemos que la media de los valores de $\delta$ está alrededor del $0$ independientemente de si hay un ataque o no, pero la desviación estándar de los valores de $\delta$ es mucho mayor cuando hay un ataque que cuando no lo hay. 
 
 Los diagramas de dispersión muestran solapamiento entre los valores de los parámetros $\alpha$, $\beta$ y $\gamma$ cuando hay un ataque y cuando no lo hay, por lo que estos parámetros no son útiles para la detección de anomalías. Por el contrario, el parámetro $\delta$ muestra una clara separación con los demás valores. Sin embargo, esta separación parece ser un desplazamiento de la distribución de los valores, y no una diferencia en la forma de la distribución. 
 Por tanto, parece razonable utilizar únicamente el parámetro $\delta$ para la detección de anomalías.

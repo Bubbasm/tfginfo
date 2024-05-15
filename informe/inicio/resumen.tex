@@ -1,1 +1,11 @@
-TODO: empezar
+En un mundo cada vez más interconectado, donde Internet desempeña un papel crucial en nuestras actividades diarias, la seguridad de los sistemas informáticos y la disponibilidad constante de servicios en línea son de suma importancia. En este contexto, los ataques de denegación de servicio (DoS, por sus siglas en inglés) representan una amenaza significativa. Con el aumento generalizado del ancho de banda en hogares, lugares de trabajo y otras instalaciones, estos ataques se han vuelto más accesibles y frecuentes.
+Por ello, detectar y mitigar estos ataques se vuelve fundamental para mantener la funcionalidad y la integridad de los servicios en línea. 
+
+En este estudio, se exploran mecanismos simples pero efectivos para la detección de anomalías sutiles en ventanas de corta duración, con la capacidad de implementarse en tiempo real gracias a su simplicidad. Los ataques DoS causan anomalías en el tráfico al intentar saturar los recursos disponibles, por lo que se propone utilizar modelos que se ajusten al tráfico observado para evaluar si el tráfico futuro sigue un patrón esperado o difiere significativamente.
+
+El método sugerido se basa en transformar la serie temporal de la ventana de interés en una serie estacionaria, mediante técnicas de diferenciación de series temporales. A partir de esta, se derivan parámetros que caracterizan el comportamiento del tráfico. Se exploran dos enfoques para analizar este comportamiento: ajuste de parámetros $\alpha$-estables y estandarización de los datos, asumiendo que, al ser estacionaria, la media y la desviación estándar no varían con el tiempo.
+
+La detección de anomalías se realiza comparando estos parámetros estimados con valores previamente establecidos. Si se observan desviaciones significativas, se identifica una anomalía en el tráfico.
+
+
+\palabrasclave{Distribución $\alpha$-estable, Tipificación, Serie Temporal, Diferenciación de Primer Grado, Diferenciación mediante Convolución, Holt-Winters, Regresión Logística, Descomposición Estacional, Ataque de Denegación de Servicio, Ciberseguridad.}

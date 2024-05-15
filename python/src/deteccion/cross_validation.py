@@ -1,16 +1,18 @@
-def train_test_split_2(X, Y):
+def train_test_split_2(X, Y, randomPercentage=None):
     """
     Split the data into training and testing sets.
     """
     import random
     import pandas as pd
     # take 80% of continuous data for training at random and 20% for testing
-    randomPercentage = random.random()*0.8
+    if randomPercentage is None:
+        randomPercentage = random.random()*0.8
     train_X = pd.concat([X[:int(len(X)*randomPercentage)], X[int(len(X)*(randomPercentage+0.2)):]])
     train_Y = pd.concat([Y[:int(len(X)*randomPercentage)], Y[int(len(X)*(randomPercentage+0.2)):]])
     test_X = X[int(len(X)*randomPercentage)+900:-900+int(len(X)*(randomPercentage+0.2))]
     test_Y = Y[int(len(X)*randomPercentage)+900:-900+int(len(X)*(randomPercentage+0.2))]
-    return train_X, test_X, train_Y, test_Y
+    print(int(len(X)*randomPercentage)+900, -900+int(len(X)*(randomPercentage+0.2)))
+    return train_X, test_X, train_Y, test_Y, randomPercentage
 
 # utilizar ventanas totalmente disjuntas o días distintos.
 
@@ -52,8 +54,9 @@ if __name__ == "__main__":
     no_att_Y = full_Y[full_Y == 0].reset_index(drop=True)
 
     # take 80% of the data for training and 20% for testing
-    Xatt,tXatt,Yatt,tYatt = train_test_split_2(att_X, att_Y)
-    Xnoatt,tXnoatt,Ynoatt,tYnoatt = train_test_split_2(no_att_X, no_att_Y)
+    ran = 3/14-0.044716
+    Xatt,tXatt,Yatt,tYatt,ran = train_test_split_2(att_X, att_Y, ran)
+    Xnoatt,tXnoatt,Ynoatt,tYnoatt,ran = train_test_split_2(no_att_X, no_att_Y,ran)
     Y = pd.concat([Yatt, Ynoatt])
     X = pd.concat([Xatt, Xnoatt])
     tY = pd.concat([tYatt, tYnoatt])
@@ -69,8 +72,8 @@ if __name__ == "__main__":
     import matplotlib.pyplot as plt
     disp = ConfusionMatrixDisplay.from_predictions(tY, predictions_nominal, display_labels=["No Attack", "Attack"], cmap=plt.cm.Blues, normalize="true")
     disp.ax_.set_title("Normalized Confusion Matrix, all parameters")
-    plt.savefig("confusion_matrix.svg")
-    # plt.show()
+    # plt.savefig("confusion_matrix_all.svg")
+    plt.show()
 
     # calculate the accuracy of the model
     accuracy = sum([1 if tY.iloc[i] == predictions_nominal[i] else 0 for i in range(len(tY))])/len(tY)
@@ -98,5 +101,5 @@ if __name__ == "__main__":
     plt.ylabel('True Positive Rate')
     plt.title('Receiver Operating Characteristic, all parameters')
     plt.legend(loc="lower right")
-    plt.savefig("roc_curve.svg")
+    plt.savefig("roc_curve_all.svg")
     # plt.show()

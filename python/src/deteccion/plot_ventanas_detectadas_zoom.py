@@ -7,7 +7,7 @@ def elplot(df, axvspan_cols):
     smoothingWindow=61
     plt.rcParams['axes.grid'] = True
 
-    fig, ax = plt.subplots(figure=(16, 9))
+    fig, ax = plt.subplots(figsize=(16, 9))
     ax.plot(df["Date"], smooth(df["Bitrate"], smoothingWindow), label="Bitrate", color="black")
     ax.set_ylabel("Bitrate")
     ax.set_xlabel("Time")

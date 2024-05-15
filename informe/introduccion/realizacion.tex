@@ -1,13 +1,13 @@
 \begin{figure}[Diagrama de Gantt de la realización del trabajo]{GANTT:ONE}{Diagrama de Gantt de la realización del trabajo.}
 \begin{gantt}{1}{24}
     \taskgroup[][]{Estado del arte}{1}{8} \\
-    \taskbar[benjamin]{TFG y TFM de Benjamín}{1}{3} \\
+    \taskbar[benjamin]{TFG y TFM de B. Martín}{1}{3} \\
     \taskbar[datasets]{Buscar datasets}{3}{4} \\
     \taskbar[datasetsugr]{Dataset UGR16}{4}{5} \\
     \taskbar[datasetsunb]{Dataset CIC de UNB}{4}{5} \\
     \taskbar[bsplines][40]{Predicción con B-Splines}{5}{6} \\
-    \taskbar[bsplines2][40]{B-Splines de Strlkovskaya}{6}{8} \\
-    \taskbar[cabornero][]{Lectura TFG Cabornero}{6}{7} \\
+    \taskbar[bsplines2][40]{B-Splines de Strelkovskaya \textit{et al.}}{6}{8} \\
+    \taskbar[cabornero][]{Lectura TFG E. Cabornero}{6}{7} \\
     \FtoSlink{benjamin}{datasets}
     \FtoSlink{datasets}{datasetsugr}
     \FtoSlink{datasets}{datasetsunb}
@@ -58,11 +58,11 @@
 
 % Diagrama de Gantt img/DiagramaGantt.png
 La realización de este trabajo se ha llevado a cabo en varias etapas, las cuales se describen en la figura \ref{GANTT:ONE}. 
-En primer lugar, se realizó un estudio del estado del arte en la detección de ataques en la red, en el que se revisaron trabajos previos, como el \ac{TFG} y el \ac{TFM} de Benjamín \cite{benjamin2021, benjamin2023}, y se analizaron datasets, como el UGR16 \cite{datosugr16} y el CIC de la UNB \cite{datosunb19}. Además, se estudiaron técnicas de predicción de series temporales, como el uso de B-Splines, que los utiliza Strlkovskaya en su artículo ``Spline-Extrapolation Method in Traffic Forecasting in 5G Networks'' \cite{strelkovskaya2019}, aunque finalmente no se obtuvo conclusiones relevantes de estos estudios. Luego se revisó el trabajo de Cabornero en su \ac{TFG} \cite{cabornero2021}, que trata sobre la predicción de tráfico en redes de comunicaciones con métodos de suavizado exponencial, como Holt-Winters.
+En primer lugar, se realizó un estudio del estado del arte en la detección de ataques en la red, en el que se revisaron trabajos previos, como el \ac{TFG} y el \ac{TFM} de B.  Martín~\cite{benjamin2021, benjamin2023}, y se analizaron datasets, como el UGR16~\cite{datosugr16} y el CIC-DDoS2019 de la \ac{UNB}~\cite{datosunb19}. Además, se estudiaron técnicas de predicción de series temporales, como el uso de B-Splines, que los utiliza I. Strelkovskaya \textit{et al.} en su artículo ``Spline-Extrapolation Method in Traffic Forecasting in 5G Networks''~\cite{strelkovskaya2019}, aunque finalmente no se obtuvo conclusiones relevantes de estos estudios. Luego se revisó el trabajo de E. Cabornero en su \ac{TFG}~\cite{cabornero2021}, que trata sobre la predicción de tráfico en redes de comunicaciones con métodos de suavizado exponencial, como Holt-Winters.
 Esta primera etapa de reconocimiento del estado del arte se extendió durante las primeras ocho quincenas del trabajo, es decir, durante los cuatro primeros meses.
 
 Posteriormente, se procedió a la recopilación de datos y a su análisis, para el cual se realizaron numerosas pruebas con el fin de obtener resultados comparables con trabajos anteriores. Entre estas pruebas, analizamos los datos mediante su descomposición en tendencia, estacionalidad y residuo, y se estudiaron las propiedades de estacionariedad de los datos. Esta etapa se extendió durante cuatro meses, aproximadamente.
 
-Una vez se tuvo una idea clara de cómo se comportaban los datos, se procedió al diseño del sistema de detección de ataques. En esta etapa, se comprobó la estacionariedad de los datos y se pusieron a prueba métodos de predicción basados en los ajustes $\alpha$-estables que utiliza Benjamín en su \ac{TFG} \cite{benjamin2021}. Además, se propuso un método de estandarización de los datos basado en la media, para el cual se realizaron pruebas con diferentes métodos de diferenciación. Dicha estandarización se utilizó para la detección de anomalías en el tráfico, y se aplicaron diferentes métodos de clasificación, como \ac{SVM} y regresión logística, para evaluar la precisión de la detección.
-Finalmente, se realizaron pruebas con los datos y se obtuvieron los resultados que se presentan en el capítulo \ref{CAP:DESARROLLO}.
+Una vez se tuvo una idea clara de cómo se comportaban los datos, se procedió al diseño del sistema de detección de ataques. En esta etapa, se comprobó la estacionariedad de los datos y se pusieron a prueba métodos de predicción basados en los ajustes $\alpha$-estables que utilizó Benjamín Martín en su \ac{TFG}~\cite{benjamin2021}. Además, se propuso un método de estandarización de los datos basado en la media, para el cual se realizaron pruebas con diferentes métodos de diferenciación. Dicha estandarización se utilizó para la detección de anomalías en el tráfico, y se aplicaron diferentes métodos de clasificación, como \ac{SVM} y regresión logística, para evaluar la precisión de la detección.
+Finalmente, se realizaron pruebas con los datos y se obtuvieron los resultados que se presentan en el capítulo~\ref{CAP:DESARROLLO}.
 Esta etapa se extendió durante tres meses.

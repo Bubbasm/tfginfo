@@ -1,1 +1,10 @@
-TODO: empezar
+In an increasingly interconnected world, where the Internet plays a crucial role in our daily activities, the security of computer systems and the constant availability of online services are of paramount importance. In this context, Denial of Service (DoS) attacks represent a significant threat. With the widespread increase in bandwidth in homes, workplaces, and other facilities, these attacks have become more accessible and frequent.
+Therefore, detecting and mitigating these attacks becomes essential to maintain the functionality and integrity of online services.
+
+This study explores simple yet effective mechanisms for detecting subtle anomalies in short-duration windows, with the ability to be implemented in real-time due to their simplicity. DoS attacks cause traffic anomalies by attempting to saturate available resources, hence it is proposed to use models that fit the observed traffic to assess whether future traffic follows an expected pattern or differs significantly.
+
+The suggested method is based on transforming the time series of the window of interest into a stationary series, using time series differencing techniques. From this, parameters characterizing traffic behavior are derived. Two approaches are explored to analyze this behavior: fitting $\alpha$-stable parameters and standardizing the data, assuming that, being stationary, the mean and standard deviation do not vary over time.
+
+Anomaly detection is performed by comparing these estimated parameters with previously established values. If significant deviations are observed, a traffic anomaly is identified.
+
+\keywords{$\alpha$-stable Distribution, Standardization, Time Series, First-Order Differencing, Convolution-Based Differencing, Holt-Winters, Logistic Regression, Seasonal Decomposition, Denial of Service Attack, Cybersecurity.}

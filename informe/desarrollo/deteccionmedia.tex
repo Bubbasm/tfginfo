@@ -1,12 +1,12 @@
-De forma similar a la detección de anomalías mediante la comparación de distribuciones $\alpha$-estables, dada una ventana de 15 minutos, se han tipificado los datos de la subventana de 3 minutos en la que se quiere detectar un posible ataque. Dicho proceso de tipificación se ha realizado con la media y desviación estándar de la subventana de 12 minutos tomada como referencia, como se indica en la sección \ref{SUBSEC:NORMALIZACIONTIPIFICACION}. Posteriormente, se ha calculado la media y desviación estándar de los datos tipificados de la subventana de 3 minutos. Para evitar confusión en la lectura, estos valores de media y desviación estándar se referirán como parámetros \textit{mean} y \textit{std} respectivamente.
+De forma similar a la detección de anomalías mediante la comparación de distribuciones $\alpha$-estables, dada una ventana de 15 minutos, se han tipificado los datos de la subventana de 3 minutos en la que se quiere detectar un posible ataque. Dicho proceso de tipificación se ha realizado con la media y desviación estándar de la subventana de 12 minutos tomada como referencia, como se indica en la sección~\ref{SUBSEC:NORMALIZACIONTIPIFICACION}. Posteriormente, se ha calculado la media y desviación estándar de los datos tipificados de la subventana de 3 minutos. Para evitar confusión en la lectura, estos valores de media y desviación estándar se referirán como parámetros \textit{mean} y \textit{std} respectivamente.
 
 \begin{figure}[Distribución de los parámetros \textit{mean} y \textit{std} tras la tipificación]{FIG:SCATTERPLOTTIPIFICACION}{Distribución de los parámetros \textit{mean} y \textit{std} tras la tipificación}
     \image{8cm}{}{scatter_plot_mean.pdf}
     \label{FIG:SCATTERPLOTTIPIFICACION}
 \end{figure}
 
-En la figura \ref{FIG:SCATTERPLOTTIPIFICACION} se muestra la distribución de los parámetros \textit{mean} y \textit{std} obtenidos en la tipificación de las subventanas de 3 minutos. En color rojo indican que la ventana estaba sujeta a un ataque, mientras que en color azul se indica que no lo estaba. 
-Al igual que en la figura \ref{FIG:SCATTERPLOTALFA}, en diagonal observamos los histogramas de los parámetros, donde se muestra la distribución que siguen los valores obtenidos según estuvieran bajo ataque.
+En la figura~\ref{FIG:SCATTERPLOTTIPIFICACION} se muestra la distribución de los parámetros \textit{mean} y \textit{std} obtenidos en la tipificación de las subventanas de 3 minutos. En color rojo indican que la ventana estaba sujeta a un ataque, mientras que en color azul se indica que no lo estaba. 
+Al igual que en la figura~\ref{FIG:SCATTERPLOTALFA}, en diagonal observamos los histogramas de los parámetros, donde se muestra la distribución que siguen los valores obtenidos según estuvieran bajo ataque.
 
 \begin{table}[Características de la distribución del parámetro \textit{mean}]{TAB:CARACMEDIA}{Características de la distribución del parámetro \textit{mean}}
     \begin{tabular}{|c|c|c|c|}

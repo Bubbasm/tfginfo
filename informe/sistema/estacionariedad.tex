@@ -1,12 +1,12 @@
-Como vimos en la sección \ref{SUBSEC:ESTACIONARIEDAD}, los datos de entrada no pueden ser considerados estacionarios, por lo que es necesario realizar un ajuste a los mismos para poder trabajar con ellos y aplicar los métodos de predicción.
+Como vimos en la sección~\ref{SUBSEC:ESTACIONARIEDAD}, los datos de entrada no pueden ser considerados estacionarios, por lo que es necesario realizar un ajuste a los mismos para poder trabajar con ellos y aplicar los métodos de predicción.
 
 \subsection{Diferenciación de los datos}
 
-La diferenciación es una técnica común utilizada en el análisis de series temporales para hacer que los datos sean estacionarios \cite{box2015time}. Consiste en calcular diferencias entre observaciones sucesivas en la serie temporal. En este contexto, la diferenciación discreta es particularmente útil para eliminar tendencias y hacer que la serie sea estacionaria.
+La diferenciación es una técnica común utilizada en el análisis de series temporales para hacer que los datos sean estacionarios~\cite{box2015time}. Consiste en calcular diferencias entre observaciones sucesivas en la serie temporal. En este contexto, la diferenciación discreta es particularmente útil para eliminar tendencias y hacer que la serie sea estacionaria.
 
 La diferenciación discreta de orden 1 se define como:
-\begin{equation}    
-    \boxed{\Delta y_t}= y_t - y_{t-1}
+\begin{equation}{Diferenciación discreta de orden 1}    
+    \Delta y_t = y_t - y_{t-1}
 \end{equation}
 donde \( y_t \) es el valor en el tiempo \( t \) de la serie temporal. Esta técnica ayuda a eliminar las tendencias lineales y puede ser efectiva para hacer que la serie sea estacionaria.
 
@@ -15,18 +15,18 @@ donde \( y_t \) es el valor en el tiempo \( t \) de la serie temporal. Esta téc
         \hline
         \textbf{Test} & \textbf{P-valor medio} & \textbf{Porcentaje de ventanas no estacionarias} \\
         \hline
-        ADF & $2.42\times 10^{-12}$ & $0.0$ \\
-        KPSS & $0.099$ & $0.008$ \\
+        ADF & $2.42\cdot 10^{-12}$ & $0.00\%$ \\
+        KPSS & $0.099$ & $0.80\%$ \\
         \hline
     \end{tabular}
 \end{table}
 
-En nuestro estudio, hemos encontrado que una diferenciación de primer orden es suficiente para lograr la estacionarización de los datos. No es necesario aplicar diferenciaciones de orden superior dado que los datos se vuelven estacionarios después de una única diferenciación. En la tabla \ref{TAB:ESTACIONDATOSDIFF} se muestran los resultados de las pruebas de estacionariedad aplicadas a todas las ventanas de los datos, aplicando el método de diferenciación discreta. Se observa que el p-valor medio de la prueba KPSS es cercano a 0.1, y no superior a eso. Esto se debe a una limitación de la implementación del test KPSS en Python, que calcula el p-valor de manera aproximada mediante una tabla de consulta. 
+En nuestro estudio, hemos encontrado que una diferenciación de primer orden es suficiente para lograr la estacionarización de los datos. No es necesario aplicar diferenciaciones de orden superior dado que los datos se vuelven estacionarios después de una única diferenciación. En la tabla \ref{TAB:ESTACIONDATOSDIFF} se muestran los resultados de las pruebas de estacionariedad aplicadas a todas las ventanas de los datos, aplicando el método de diferenciación discreta. Se observa que el p-valor medio de la prueba KPSS es cercano a $0.1$, y no superior a eso. Esto se debe a una limitación de la implementación del test KPSS en Python, que calcula el p-valor de manera aproximada mediante una tabla de consulta. 
 
-Además de la diferenciación discreta, también hemos explorado una técnica alternativa utilizando una convolución con el siguiente kernel:
-\[
-[-\frac{1}{2}, 0, \frac{1}{2}]
-\]
+Además de la diferenciación discreta, también hemos explorado una técnica alternativa utilizando una convolución con el siguiente \textit{kernel}:
+\begin{equation}{\textit{Kernel} de convolución para la diferenciación}   
+    [-\frac{1}{2}, 0, \frac{1}{2}]
+\end{equation}
 Esta convolución también es efectiva para eliminar tendencias lineales y puede ser útil para suavizar la serie mientras se eliminan las tendencias.
 
 \begin{table}[Estacionariedad de la serie con diferenciación mediante convolución]{TAB:ESTACIONDATOSCONV}{Estacionariedad de la serie con diferenciación mediante convolución}
@@ -34,22 +34,22 @@ Esta convolución también es efectiva para eliminar tendencias lineales y puede
         \hline
         \textbf{Test} & \textbf{P-valor medio} & \textbf{Porcentaje de ventanas no estacionarias} \\
         \hline
-        ADF & $2.45\times 10^{-10}$ & 0.0 \\
-        KPSS & $0.099$ & $0.004$ \\
+        ADF & $2.45\cdot 10^{-10}$ & $0.00\%$ \\
+        KPSS & $0.099$ & $0.4\%$ \\
         \hline
     \end{tabular}
 \end{table}
 
-En la tabla \ref{TAB:ESTACIONDATOSCONV} se muestran los resultados de las pruebas de estacionariedad aplicadas a todas las ventanas de los datos, aplicando el método de diferenciación mediante convolución. En este caso también podemos afirmar que todas las ventanas son estacionarias después de aplicar la convolución.
+En la tabla~\ref{TAB:ESTACIONDATOSCONV} se muestran los resultados de las pruebas de estacionariedad aplicadas a todas las ventanas de los datos, aplicando el método de diferenciación mediante convolución. En este caso también podemos afirmar que prácticamente todas las ventanas son estacionarias después de aplicar la convolución.
 
 \begin{figure}[Diferenciación de los datos mediante diferenciación discreta y convolución]{FIG:ESTACIONARIEDAD}{Diferenciación de los datos mediante diferenciación discreta y convolución}
     \image{}{}{estacionariedad_plot.pdf}
     \label{FIG:ESTACIONARIEDAD}
 \end{figure}
 
-En la figura \ref{FIG:ESTACIONARIEDAD} se muestra el resultado de la diferenciación de los datos mediante la técnica de diferenciación discreta y convolución. Se puede observar que ambas técnicas son efectivas para hacer que los datos sean estacionarios.
+En la figura~\ref{FIG:ESTACIONARIEDAD} se muestra el resultado de la diferenciación de los datos mediante la técnica de diferenciación discreta y convolución. Se puede observar que ambas técnicas son efectivas para hacer que los datos sean estacionarios.
 
-\begin{figure}[Diferenciación de los datos sujeto a un ataque]{FIG:ESTACIONARIEDADATAQUE}{Diferenciación de los datos sujeto a un ataque}
+\begin{figure}[Diferenciación de los datos sujeto a un ataque]{FIG:ESTACIONARIEDADATAQUE}{Diferenciación de los datos sujetos a un ataque}
     \image{}{}{estacionariedad_plot_ataque.pdf}
     \label{FIG:ESTACIONARIEDADATAQUE}
 \end{figure}
