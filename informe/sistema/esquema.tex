@@ -1,4 +1,5 @@
-Hemos obtenido la estacionariedad de los datos mediante dos métodos de diferenciación en la sección \ref{SEC:ESTACIONARIEDAD}. Ahora vamos a introducir el tratado de datos propuesto por Benjamin en su estudio \cite{benjamin2019}, y otro método de normalización de los datos, para poder detectar una posible anomalía en el tráfico de red.
+
+Hemos obtenido la estacionariedad de los datos mediante dos métodos de diferenciación en la sección \ref{SEC:ESTACIONARIEDAD}. Ahora vamos a introducir el tratado de datos propuesto por Benjamin en su estudio \cite{benjamin2021}, y otro método de normalización de los datos, para poder detectar una posible anomalía en el tráfico de red.
 
 % Decir por que elegimos ventanas de 15 minutos para analizar
 Se eligen ventanas de 15 minutos para analizar, ya que es un tiempo suficiente para detectar anomalías en el tráfico. Estos 15 minutos de tamaño de ventana equivalen a 900 puntos de datos, lo que nos permite realizar los ajustes de los apartados siguientes de manera eficiente.
@@ -60,7 +61,7 @@ Ahora que los datos están normalizados, podemos comparar los ajustes $\alpha$-e
 
 La idea detrás de esta comparación es verificar si existe una diferencia sustancial en la distribución $\alpha$-estable entre las dos ventanas de tiempo consecutivas. Si observamos cambios abruptos o anómalos en los parámetros $\alpha$, $\beta$, $\gamma$, o $\delta$ entre estas dos ventanas, podría indicar la presencia de una anomalía en el tráfico de red durante ese período.
 
-\subsubsection{Normalizando los datos mediante la tipificación}
+\subsubsection{Normalizando los datos mediante la tipificación}\label{SUBSEC:NORMALIZACIONTIPIFICACION}
 
 Otro método de normalización de los datos es la tipificación. La tipificación es un método comúnmente utilizado en el análisis de series temporales para hacer que los datos sean comparables. Consiste en restar la media y dividir por la desviación estándar de los datos. En este contexto, la tipificación es particularmente útil para hacer que los datos sean comparables y explorar su comportamiento.
 

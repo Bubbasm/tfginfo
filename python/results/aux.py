@@ -11,12 +11,12 @@ if __name__ == "__main__":
     predict = 3 # minutes
     winlen = 15 # minutes
 
-    file = open("../csv/diff_attack.csv", "w")
+    file = open("../csv/diff_no_attack_m0.csv", "w")
 
     for win in range(0, len(df)//60-winlen, 1):
         dff = ugr_get_few_minutes(df, win, winlen)
         t = [i for i in range(len(dff))]
         
-        dff = apply_attack(dff, 2, 1)
+        # dff = apply_attack(dff, 2, 0)
         x_t = diff_series(dff, 1)
         file.write(x_t.to_csv(header=False, index=False))

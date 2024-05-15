@@ -13,22 +13,23 @@ if __name__ == "__main__":
     file1 = open("../csv/alpha_fit_normalized.csv", "r")
     df = pd.read_csv(file1, sep=",")
 
-    # xMeanStd = pd.Series([(float(x_new.mean().iloc[0]), float(x_new.std().iloc[0])) for x_new in [(dff[898*j+720:898*(j+1)] - dff[898*j:898*j+720].mean())/dff[898*j:898*j+720].std() for j in range(len(dff)//898)]])
+    xMeanStd = pd.Series([(float(x_new.mean().iloc[0]), float(x_new.std().iloc[0])) for x_new in [(dff[898*j+720:898*(j+1)] - dff[898*j:898*j+720].mean())/dff[898*j:898*j+720].std() for j in range(len(dff)//898)]])
 
     # qt = 0.50
     # xPercentile = pd.Series([float(x_new.quantile(qt).iloc[0]) for x_new in [(dff[898*j+720:898*(j+1)])/dff[898*j:898*j+720].quantile(qt) for j in range(len(dff)//898)]])
 
     # qtStr = str(qt)[2:]
     # Add x1 and x2 to df
-    # df["mean_values"], df["std_values"] = zip(*xMeanStd)
+    df["mean_values"], df["std_values"] = zip(*xMeanStd)
     # df["q"+qtStr+"_values"] = xPercentile
 
     color = ["red" if i == 1.0 else "blue" for i in df["attack_value"]]
 
     parameters = ["alpha", "beta", "gamma", "delta"] # , "mean", "std", "q"+qtStr]
+    parameters = ["mean", "std"]
 
     # 6x6 plot comparing all parameters
-    fig, axs = plt.subplots(len(parameters), len(parameters), figsize=(15, 15), constrained_layout=True)
+    fig, axs = plt.subplots(len(parameters), len(parameters), figsize=(5, 5), constrained_layout=True)
     
     for i in range(len(parameters)):
         for j in range(len(parameters)):
@@ -40,32 +41,33 @@ if __name__ == "__main__":
                     # remove outliers percentile 1% and 99%
                     delta1 = df[df["attack_value"] == 1.][parameters[i]+"_values"].clip(lower=df[parameters[i]+"_values"].quantile(0.01), upper=df[parameters[i]+"_values"].quantile(0.99))
                     delta2 = df[df["attack_value"] == 0.][parameters[i]+"_values"].clip(lower=df[parameters[i]+"_values"].quantile(0.01), upper=df[parameters[i]+"_values"].quantile(0.99))
-                    axs[i, j].hist(delta1, bins=bins, color="red", alpha=0.5, density=True)
-                    axs[i, j].hist(delta2, bins=bins, color="blue", alpha=0.5, density=True)
+                    axs[i, j].hist(delta1, bins=bins, color="red", alpha=0.5, density=True, rasterized=True)
+                    axs[i, j].hist(delta2, bins=bins, color="blue", alpha=0.5, density=True, rasterized=True)
                 else:
-                    axs[i, j].hist(df[df["attack_value"] == 1.][parameters[i]+"_values"], bins=bins, color="red", alpha=0.5, density=True)
-                    axs[i, j].hist(df[df["attack_value"] == 0.][parameters[i]+"_values"], bins=bins, color="blue", alpha=0.5, density=True)
+                    axs[i, j].hist(df[df["attack_value"] == 1.][parameters[i]+"_values"], bins=bins, color="red", alpha=0.5, density=True, rasterized=True)
+                    axs[i, j].hist(df[df["attack_value"] == 0.][parameters[i]+"_values"], bins=bins, color="blue", alpha=0.5, density=True, rasterized=True)
                 print("Attack: Mean", df[df["attack_value"] == 1.][parameters[i]+"_values"].mean(), "Std", df[df["attack_value"] == 1.][parameters[i]+"_values"].std())
                 print("No Attack: Mean", df[df["attack_value"] == 0.][parameters[i]+"_values"].mean(), "Std", df[df["attack_value"] == 0.][parameters[i]+"_values"].std())
                 print(len(df[df["attack_value"] == 1.][parameters[i]+"_values"]), len(df[df["attack_value"] == 0.][parameters[i]+"_values"]))
                 axs[i, j].set_xlim(df[parameters[i]+"_values"].quantile(0.01), df[parameters[i]+"_values"].quantile(0.99))
                 axs[i, j].set_title(parameters[i])
                 labels = ["Attack", "No Attack"]
-                axs[i, j].legend(labels)
+                axs[i, j].legend(labels, fontsize=8)
             else:
-                axs[i, j].scatter(df[parameters[j]+"_values"], df[parameters[i]+"_values"], c=color, alpha=0.1, s=10, rasterized=True)
+                axs[i, j].scatter(df[parameters[j]+"_values"], df[parameters[i]+"_values"], c=color, alpha=0.05, s=3, rasterized=True)
                 # legend
                 labels = ["Attack", "No Attack"]
-                handles = [plt.Line2D([0], [0], marker="o", color="w", markerfacecolor="red", markersize=10),
-                           plt.Line2D([0], [0], marker="o", color="w", markerfacecolor="blue", markersize=10)]
-                axs[i, j].legend(handles, labels)
+                handles = [plt.Line2D([0], [0], marker="o", color="w", markerfacecolor="red", markersize=5),
+                           plt.Line2D([0], [0], marker="o", color="w", markerfacecolor="blue", markersize=5)]
+                axs[i, j].legend(handles, labels, fontsize=8)
                 axs[i, j].set_xlabel(parameters[j])
                 axs[i, j].set_ylabel(parameters[i])
                 axs[i, j].set_xlim(df[parameters[j]+"_values"].quantile(0.01), df[parameters[j]+"_values"].quantile(0.99))
                 axs[i, j].set_ylim(df[parameters[i]+"_values"].quantile(0.01), df[parameters[i]+"_values"].quantile(0.99))
     # x labels and y labels for all plots
-    for i in range(len(parameters)):
-        axs[len(parameters)-1, i].set_xlabel(parameters[i])
-        axs[i, 0].set_ylabel(parameters[i])
-    plt.savefig("scatter_params_compare_norm.svg", dpi=300)
-    plt.show()
+    # for i in range(len(parameters)):
+    #     axs[len(parameters)-1, i].set_xlabel(parameters[i])
+    #     axs[i, 0].set_ylabel(parameters[i])
+    plt.tight_layout()
+    plt.savefig("scatter_plot.svg", dpi=300)
+    # plt.show()

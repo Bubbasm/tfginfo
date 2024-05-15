@@ -19,14 +19,12 @@
     \taskbar[analisis]{Representar datos}{8}{9} \\
     \taskbar[holtwinters]{Holt-Winters Cabornero}{9}{10} \\
     \taskbar[annealing]{Predicción parámetros H-W}{10}{11} \\
-    \taskbar[prophet]{Utilizar Prophet}{10}{11} \\
     \taskbar[seasonal]{Descomposición de estacionalidad}{11}{15} \\
     \taskbar[multiseasonal]{Descomposición multiestacional}{16}{17} \\
     \taskbar[estacionariedad]{Comprobar estacionariedad}{17}{17} \\
     \FtoSlink{analisis}{holtwinters}
     \FtoSlink{holtwinters}{annealing}
-    \FtoSlink{holtwinters}{prophet}
-    \FtoSlink{prophet}{seasonal}
+    \FtoSlink{annealing}{seasonal}
     \FtoSlink{seasonal}{multiseasonal}
     \FtoSlink{multiseasonal}{estacionariedad}
     \\

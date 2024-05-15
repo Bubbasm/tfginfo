@@ -1,18 +1,4 @@
-% Hablar sobre cómo el proceso descrito en este trabajo puede ayudar a mejorar la detección de ataques en la red.
-% Particularmente, que se puede utilizar como una herramienta adicional en un IDS para detectar anomalías en el tráfico.
-% El proceso descrito en este trabajo puede contribuir significativamente a mejorar la detección de ataques en la red. 
-% Específicamente, puede ser utilizado como una herramienta adicional en un \ac{IDS} 
-% para identificar y analizar anomalías en el tráfico.
+En este trabajo se ha desarrollado un sistema de detección de anomalías en el tráfico de red, como continuación de la labor de Benjamín en su estudio sobre la predictibilidad del tráfico \cite{benjamin2023}. Para ello, se ha obtenido una serie estacionaria a partir de métodos de diferenciación discreta y convoluciones.
+Posteriormente, se ha aplicado una metodología basada en la estandarización de los datos, que nos ha permitido comparar los datos de las series temporales. En concreto, se ha estudiado la distribución de los parámetros de la distribución $\alpha$-estable de la serie diferneciada y también su tipificación. Se ha encontrado que el parámetro \textit{mean} de los datos tipificados es un buen indicador para la detección de anomalías, y que la combinación del parámetro \textit{mean} y $\delta$ de la distribución $\alpha$-estable puede mejorar la detección de anomalías.
 
-% La predicción del tráfico proporciona una visión anticipada de los patrones normales de comportamiento de la red. 
-% Al comparar estas predicciones con el tráfico en tiempo real, se pueden identificar desviaciones significativas 
-% que podrían indicar actividades sospechosas o ataques en curso. Por ejemplo, cambios repentinos en el volumen de datos,
-% patrones de comunicación inusuales o flujos de tráfico desconocidos podrían ser señales de posibles intrusiones.
-
-% Al integrar la predicción del tráfico como una capa adicional en un \ac{IDS}, se mejora la capacidad del sistema para 
-% detectar y responder a amenazas de manera más proactiva. Esto permite una defensa más robusta contra una amplia gama
-% de ataques, proporcionando a los administradores de red una herramienta valiosa para mantener la integridad 
-% y la seguridad de la infraestructura de red.
-
-1.- Diferencias de las muestras permiten borrar la estacionalidad
-2.- Los datos estadisticos de las series temporales (la media, parametros de la alpha estable), permiten detectar tráfico anómalo
+Se ha concluido que la detección de anomalías es adecuada, aunque la cantidad de falsos positivos y falsos negativos es elevada. Sin embargo, debido a la simplicidad del proceso y poco coste computacional, se considera que es un buen sistema de detección de anomalías.

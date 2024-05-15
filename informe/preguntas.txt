@@ -1,3 +1,0 @@
-¿Deberia de incluir keywords como autosemejante, B-Splines?
-¿Debería de definir qué es autosemejante?
-¿Debería de incluir FDAs en el estado del arte?

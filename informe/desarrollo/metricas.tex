@@ -1,0 +1,100 @@
+Por las características de los datos que hemos observado, se plantea que la combinación de ambos métodos puede ser útil para la detección de anomalías.
+Por ello, se propone un análisis de regresión logística y \ac{SVM}, utilizando como variables independientes el parámetro \textit{mean} y $\delta$ obtenidos en el ajuste de la distribución $\alpha$-estable. SVM es útil para separar eficazmente datos en diferentes clases mediante la identificación de un hiperplano óptimo en un espacio dimensional superior.
+
+\begin{figure}[SVM de los parámetros $\delta$ y \textit{mean}, utilizando kernel RBF]{FIG:SVMPLOT}{SVM de los parámetros $\delta$ y \textit{mean}, utilizando kernel RBF}
+    \image{7cm}{}{svm_delta_mean.pdf}
+    \label{FIG:SVMPLOT}
+\end{figure}
+
+En SVM, el kernel RBF se utiliza comúnmente para abordar problemas de clasificación no lineales, ya que permite capturar relaciones más complejas entre las características de entrada. En la figura \ref{FIG:SVMPLOT} se muestra el resultado de la clasificación de los parámetros $\delta$ y \textit{mean} utilizando un kernel RBF. Se observa que la clasificación obtenida sigue un patrón lineal, por lo que se plantea que un kernel lineal puede ser suficiente para clasificar los datos. En este caso, la regresión logística puede ser una alternativa más sencilla y eficiente (y en algunos casos mejor \cite{salazar2012comparison}) para clasificar los datos.
+
+\begin{table}[Resultados de la regresión logística]{TAB:LOGISTICREGRESSION}{Resultados de la regresión logística}
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        & coef & std err & z & P>|z| \\
+        \hline
+        const & $-1.0319$ & $0.018$ & $-57.341$ & $0.000$ \\
+        $\delta$ & $-0.0010$ & $0.002$ & $-0.644$ & $0.519$ \\
+        mean & $62.9153$ & $0.744$ & $84.588$ & $0.000$ \\
+        \hline
+    \end{tabular}
+\end{table}
+
+En la tabla \ref{TAB:LOGISTICREGRESSION} se muestran los resultados de la regresión logística. Para poner a prueba la eficacia de la regresión logística, se ha realizado una validación cruzada con un $80\%$ de los datos para entrenamiento y un $20\%$ para validación. Se ha procurado que las ventanas que se usan para entrenamiento y test no se solapen en ningún punto, ya que esto podría introducir sesgos en el modelo. Esto se ha conseguido eliminando los datos de validación que compartan algún punto con los datos de entrenamiento. 
+
+\begin{figure}[Matriz de confusión y curva ROC de la regresión logística con parámetros $\delta$ y \textit{mean}]{FIG:CONFUSIONMATRIX1}{Matriz de confusión y curva ROC de la regresión logística con parámetros $\delta$ y \textit{mean}}
+    \subfigure[SFIG:CONFUSION1]{Matriz de confusión}{
+        \image{7cm}{}{confusion_matrix_1.pdf}
+    } \quad
+    \subfigure[SFIG:ROC1]{Curva ROC}{
+        \image{7cm}{}{roc_curve_1.pdf}
+    }
+\end{figure}
+
+
+En la figura \ref{FIG:CONFUSIONMATRIX1} se muestra la matriz de confusión de la regresión logística con los parámetros $\delta$ y \textit{mean} y su curva \ac{ROC}.
+Se ha obtenido un \textit{accuracy} del $79.4\%$, una precisión del $79.8\%$, una sensibilidad del $78.7\%$ y un \textit{F1 score} del $79.3\%$. Estos resultados indican que la regresión logística es capaz de clasificar correctamente la mayoría de los datos, aunque se observa que hay un número significativo de falsos positivos y falsos negativos. Por ello, se plantea que la regresión logística puede ser útil para clasificar los datos, pero no es suficiente para obtener una clasificación perfecta.
+
+\begin{table}[Resultados de la regresión logística]{TAB:LOGISTICREGRESSIONFULL}{Resultados de la regresión logística}
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        & coef & std err & z & P>|z| \\
+        \hline
+        const & $-0.1488$ & $0.122$ & $-1.218$ & $0.223$ \\
+        $\alpha$ & $-0.4842$ & $0.069$ & $-7.064$ & $0.000$ \\
+        $\beta$ & $-0.3669$ & $0.039$ & $-9.426$ & $0.000$ \\
+        $\gamma$ & $0.4641$ & $0.065$ & $7.130$ & $0.000$ \\
+        $\delta$ & $-0.0020$ & $0.002$ & $-1.003$ & $0.316$ \\
+        mean & $64.9292$ & $0.769$ & $84.453$ & $0.000$ \\
+        std & $-0.6110$ & $0.051$ & $-11.943$ & $0.000$ \\
+        \hline
+    \end{tabular}
+\end{table}
+
+También se ha realizado un análisis de regresión logística con todos los parámetros considerados. Los resultados de la regresión logística se muestran en la tabla \ref{TAB:LOGISTICREGRESSIONFULL}.
+
+\begin{figure}[Matriz de confusión y curva ROC de la regresión logística con todos los parámetros]{FIG:CONFUSIONMATRIX2}{Matriz de confusión y curva ROC de la regresión logística con todos los parámetros}
+    \subfigure[SFIG:CONFUSION2]{Matriz de confusión}{
+        \image{7cm}{}{confusion_matrix_2.pdf}
+    } \quad
+    \subfigure[SFIG:ROC2]{Curva ROC}{
+        \image{7cm}{}{roc_curve_2.pdf}
+    }
+\end{figure}
+
+En la figura \ref{FIG:CONFUSIONMATRIX2} se muestra la matriz de confusión de la regresión logística con todos los parámetros y su curva \ac{ROC}. Se ha obtenido un \textit{accuracy} del $83.1\%$, una precisión del $82.2\%$, una sensibilidad del $84.6\%$ y un \textit{F1 score} del $83.4\%$. Estos resultados indican que la regresión logística con todos los parámetros es más eficaz que la regresión logística con los parámetros $\delta$ y \textit{mean}, ya que se obtiene una mejora en todas las métricas de evaluación.
+
+\subsection{Detección sobre todo el dataset}\label{SUBSEC:DETECCIONDATASET}
+
+Un resultado de interés es comprobar en qué ventanas del dataset se pueden detectar anomalías y en qué ventanas se puede confirmar que no hay anomalías correctamente. Para ello, se ha realizado una predicción en base al parámetro \textit{mean}. Como se observa en la tabla \ref{TAB:CARACMEDIA}, el valor medio de la distribución del parámetro \textit{mean} bajo ataque es $0.0339$, mientras que el valor medio de la distribución del parámetro \textit{mean} sin ataque es $0.0005$. Por tanto, se ha establecido un umbral de un valor intermedio de $0.017$ para clasificar una ventana como ataque o no ataque. Es decir, si el valor de \textit{mean} que se obtiene al calcular este parámetro es superior a $0.017$, se clasifica la ventana como ataque; en caso contrario, se clasifica como no ataque. Utilizamos un umbral prefijado ya que para si aplicamos una regresión logística el umbral se ajusta automáticamente a estos mismos datos, resultando en una clasificación sesgada.
+
+\begin{figure}[Clasificación de las ventanas del dataset sujeto a ataques en base al parámetro \textit{mean}]{FIG:CATALOGACIONATT}{Clasificación de las ventanas del dataset sujeto a ataques en base al parámetro \textit{mean}}
+    \image{}{}{catalogacion_ataque.pdf}
+    \label{FIG:CATALOGACIONATT}
+\end{figure}
+
+En la figura \ref{FIG:CATALOGACIONATT} se muestra la clasificación de las ventanas del dataset en base al parámetro \textit{mean}. Para una representación más clara, se ha utilizado una ventana móvil de 15 minutos.
+En color rojo se indican las ventanas que se han incorrectamente clasificadas como no ataque, mientras que en color verde se indican las ventanas que han sido correctamente clasificadas como ataque. Se observa que la mayoría de las ventanas se han clasificado correctamente, aunque hay un número significativo de falsos negativos. También se observa que estos falsos negativos tienden a concentrarse alrededor de algunas ventanas. El porcentaje de falsos negativos es del $25.04\%$.
+
+\begin{figure}[Clasificación de las ventanas del día 06-06-2016 sujeto a ataques en base al parámetro \textit{mean}]{FIG:CATALOGACIONATTZOOM}{Clasificación de las ventanas del día 06-06-2016 sujeto a ataques en base al parámetro \textit{mean}}
+    \image{10cm}{}{catalogacion_ataque_zoom.pdf}
+    \label{FIG:CATALOGACIONATTZOOM}
+\end{figure}
+
+En la figura \ref{FIG:CATALOGACIONATTZOOM} se muestran los datos de la figura \ref{FIG:CATALOGACIONATT} ampliado al primer día, donde se aprecian que los falsos negativos suceden en ventanas donde hay mucha variabilidad del tráfico. En este caso sucede en la ventana de las 12:00 hasta las 14:00 y desde las 17:00 hasta las 18:00.
+
+\begin{figure}[Clasificación de las ventanas del dataset en base al parámetro \textit{mean}]{FIG:CATALOGACIONDEF}{Clasificación de las ventanas del dataset en base al parámetro \textit{mean}}
+    \image{}{}{catalogacion_defensa.pdf}
+    \label{FIG:CATALOGACIONDEF}
+\end{figure}
+
+En la figura \ref{FIG:CATALOGACIONDEF} se muestra la clasificación de las ventanas del dataset en base al parámetro \textit{mean}. Se ha utilizado una ventana móvil de 15 minutos para una representación más clara.
+En color rojo se indican las ventanas que se han incorrectamente clasificadas como ataque, mientras que en color azul se indican las ventanas que han sido correctamente clasificadas como no ataque.
+Al igual que en el caso anterior, la mayoría de las ventanas han sido clasificadas correctamente. En este caso, el porcentaje de falsos positivos es del $15.04\%$.
+
+\begin{figure}[Clasificación de las ventanas del día 06-06-2016 en base al parámetro \textit{mean}]{FIG:CATALOGACIONDEFZOOM}{Clasificación de las ventanas del día 06-06-2016 en base al parámetro \textit{mean}}
+    \image{10cm}{}{catalogacion_defensa_zoom.pdf}
+    \label{FIG:CATALOGACIONDEFZOOM}
+\end{figure}
+
+En la figura \ref{FIG:CATALOGACIONDEFZOOM} se muestran los datos de la figura \ref{FIG:CATALOGACIONDEF} ampliado al primer día. En este caso, no se observan concentraciones de falsos positivos, sino que se distribuyen de forma más uniforme a lo largo del día.
