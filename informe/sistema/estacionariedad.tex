@@ -1,4 +1,9 @@
 Como vimos en la sección~\ref{SUBSEC:ESTACIONARIEDAD}, los datos de entrada no pueden ser considerados estacionarios, por lo que es necesario realizar un ajuste a los mismos para poder trabajar con ellos y aplicar los métodos de predicción.
+Mostramos en la figura~\ref{FIG:PROCESOESTACIONARIZACION} el trabajo que realizaremos para obtener una serie temporal estacionaria. En esta figura también señalamos el análisis previo realizado que ya ha culminado, como la descomposición estacional o la predicción del tráfico mediante el suavizado exponencial Holt-Winters.
+
+\begin{figure}[Proceso de la estacionarización de los datos]{FIG:PROCESOESTACIONARIZACION}{Proceso de la estacionarización de los datos}
+    \image{}{}{estacionarizacion.pdf}
+\end{figure}
 
 \subsection{Diferenciación de los datos}
 
@@ -43,14 +48,14 @@ Esta convolución también es efectiva para eliminar tendencias lineales y puede
 En la tabla~\ref{TAB:ESTACIONDATOSCONV} se muestran los resultados de las pruebas de estacionariedad aplicadas a todas las ventanas de los datos, aplicando el método de diferenciación mediante convolución. En este caso también podemos afirmar que prácticamente todas las ventanas son estacionarias después de aplicar la convolución.
 
 \begin{figure}[Diferenciación de los datos mediante diferenciación discreta y convolución]{FIG:ESTACIONARIEDAD}{Diferenciación de los datos mediante diferenciación discreta y convolución}
-    \image{}{}{estacionariedad_plot.pdf}
+    \image{12cm}{}{estacionariedad_plot.pdf}
     \label{FIG:ESTACIONARIEDAD}
 \end{figure}
 
 En la figura~\ref{FIG:ESTACIONARIEDAD} se muestra el resultado de la diferenciación de los datos mediante la técnica de diferenciación discreta y convolución. Se puede observar que ambas técnicas son efectivas para hacer que los datos sean estacionarios.
 
 \begin{figure}[Diferenciación de los datos sujeto a un ataque]{FIG:ESTACIONARIEDADATAQUE}{Diferenciación de los datos sujetos a un ataque}
-    \image{}{}{estacionariedad_plot_ataque.pdf}
+    \image{12cm}{}{estacionariedad_plot_ataque.pdf}
     \label{FIG:ESTACIONARIEDADATAQUE}
 \end{figure}
 

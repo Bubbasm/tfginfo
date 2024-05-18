@@ -1,15 +1,8 @@
-
-\begin{figure}[]{FIG:PROCESOESTACIONARIZACION}{Trabajo realizado hasta la estacionarización de los datos}
-    \image{}{}{estacionarizacion.pdf}
-\end{figure}
-
-Hemos obtenido la estacionariedad de los datos mediante dos métodos de diferenciación en la sección~\ref{SEC:ESTACIONARIEDAD}. Mostramos en la figura~\ref{FIG:PROCESOESTACIONARIZACION} el trabajo realizado hasta la obtención de una serie temporal estacionaria.
-
-\begin{figure}[]{FIG:PROCESOCOMPLETO}{Proceso completo de detección de anomalías en el tráfico de red}
+\begin{figure}[Proceso completo de detección de anomalías en el tráfico de red]{FIG:PROCESOCOMPLETO}{Proceso completo de detección de anomalías en el tráfico de red}
     \image{}{}{procesocompleto.pdf}
 \end{figure}
 
-Ahora vamos a introducir el tratamiento de datos propuesto por B. Martín en su estudio~\cite{benjamin2021}, y otro método novedoso de normalización de los datos, para poder detectar una posible anomalía en el tráfico de red. En la figura \ref{FIG:PROCESOCOMPLETO} se muestra el proceso de detección de anomalías en el tráfico de red, que parte de una ventana de 15 minutos de tráfico de red, y se divide en dos ramas: una rama que ajusta los datos a una distribución $\alpha$-estable, y otra rama que normaliza los datos mediante la tipificación. Este proceso se detalla en los siguientes apartados.
+Hemos obtenido la estacionariedad de los datos mediante dos métodos de diferenciación en la sección~\ref{SEC:ESTACIONARIEDAD}.  Ahora vamos a introducir el tratamiento de datos propuesto por B. Martín en su estudio~\cite{benjamin2021}, y otro método novedoso de normalización de los datos, para poder detectar una posible anomalía en el tráfico de red. En la figura \ref{FIG:PROCESOCOMPLETO} se muestra el proceso de detección de anomalías en el tráfico de red, que parte de una ventana de 15 minutos de tráfico de red, y se divide en dos ramas: una rama que ajusta los datos a una distribución $\alpha$-estable, y otra rama que normaliza los datos mediante la tipificación. Este proceso se detalla en los siguientes apartados.
 
 Cabe destacar que la elección del tamaño de ventana de 15 minutos se debe a que es un tiempo suficiente para detectar anomalías en el tráfico comparando con el comportamiento previo. Estos 15 minutos de tamaño de ventana equivalen a 900 puntos de datos (1 por segundo), lo que nos permite realizar los ajustes de los apartados siguientes de manera eficiente.
 

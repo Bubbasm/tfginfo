@@ -24,10 +24,10 @@ if __name__ == "__main__":
     color = ["red" if i == 1.0 else "blue" for i in df["attack_value"]]
 
     parameters = ["alpha", "beta", "gamma", "delta"] # , "mean", "std", "q"+qtStr]
-    parameters = ["mean", "std"]
+    parameters += ["mean", "std"]
 
     # 6x6 plot comparing all parameters
-    fig, axs = plt.subplots(len(parameters), len(parameters), figsize=(5, 5), constrained_layout=True)
+    fig, axs = plt.subplots(len(parameters), len(parameters), figsize=(16, 16), constrained_layout=True)
     
     for i in range(len(parameters)):
         for j in range(len(parameters)):

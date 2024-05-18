@@ -75,24 +75,23 @@ Se ha obtenido un \textit{accuracy} del $79.4\%$, una precisión del $79.8\%$, u
 También se ha realizado un análisis de regresión logística con todos los parámetros considerados. Los resultados de la regresión logística se muestran en la tabla~\ref{TAB:LOGISTICREGRESSIONFULL}.
 En la figura~\ref{FIG:CONFUSIONMATRIX2} se muestra la matriz de confusión de la regresión logística con todos los parámetros y su curva \ac{ROC}. Se ha obtenido un \textit{accuracy} del $83.1\%$, una precisión del $82.2\%$, una sensibilidad del $84.6\%$ y un \textit{F1 score} del $83.4\%$. Estos resultados indican que la regresión logística con todos los parámetros es más eficaz que la regresión logística que solo usa los parámetros $\delta$ y \textit{mean}, ya que se obtiene una mejora en todas las métricas de evaluación.
 
-\subsection{Detección sobre todo el conjunto de datos}\label{SUBSEC:DETECCIONDATASET}
+\subsection{Detección sobre el conjunto de datos de prueba}\label{SUBSEC:DETECCIONDATASET}
 
-Un resultado de interés es comprobar en qué ventanas del \textit{dataset} se pueden detectar anomalías y en qué ventanas se puede confirmar que no hay anomalías correctamente. Para ello, se ha realizado una predicción basándonos utilizando el método de regresión logística con todos los parámetros, ya que obtenemos los mejores resultados con este método. Se ha utilizado el $80\%$ de los datos para el entrenamiento de la regresión, y los se ha realizado la prueba sobre los datos restantes, tras eliminar los datos que puedan solaparse con los datos de entrenamiento.
+Un resultado de interés es comprobar en qué ventanas del \textit{dataset} se pueden detectar anomalías y en qué ventanas se puede confirmar que no hay anomalías correctamente. Para ello, se ha realizado una predicción utilizando el método de regresión logística con todos los parámetros, ya que obtenemos los mejores resultados con este método. Se ha utilizado el $80\%$ de los datos para el entrenamiento de la regresión, y se ha realizado la prueba sobre los datos restantes, tras eliminar los datos que puedan solaparse con los datos de entrenamiento.
 
-\begin{figure}[Clasificación de las ventanas del \textit{dataset}, entre los días 09/06/2016 y 10/06/2016, sujeto a ataques en base al parámetro \textit{mean}]{FIG:CATALOGACIONATT}{Clasificación de las ventanas del \textit{dataset}, entre los días 09/06/2016 y 10/06/2016, sujeto a ataques basándonos en el parámetro \textit{mean}}
-    \image{11cm}{}{catalogacion_ataque.pdf}
-    \label{FIG:CATALOGACIONATT}
+\begin{figure}[Clasificación de las ventanas del \textit{dataset} sujeto a ataques, entre los días 09/06/2016 (jueves) y 10/06/2016 (viernes), utilizando regresión logística con todos los parámetros]{FIG:CATALOGACIONATT}{Clasificación de las ventanas del \textit{dataset} sujeto a ataques, entre los días 09/06/2016 (jueves) y 10/06/2016 (viernes), utilizando regresión logística con todos los parámetros}
+    \image{}{}{catalogacion_ataque.pdf}
 \end{figure}
 
-En la figura~\ref{FIG:CATALOGACIONATT} se muestra la clasificación de las ventanas del \textit{dataset} en base al parámetro \textit{mean}. Para una representación más clara, se ha utilizado una ventana móvil de 60 segundos.
+En la figura~\ref{FIG:CATALOGACIONATT} se muestra la clasificación de las ventanas del \textit{dataset} utilizando regresión logística con todos los parámetros. Para una representación más clara, se ha utilizado una ventana móvil de 60 segundos.
 En rojo se señalan las ventanas incorrectamente clasificadas como no ataques, mientras que en verde se destacan las ventanas correctamente clasificadas como ataques. La mayoría de las ventanas están clasificadas correctamente, pero hay un número considerable de falsos negativos que tienden a concentrarse alrededor de ciertas áreas. El porcentaje de falsos negativos es del $21.87\%$. Se aprecia que los falsos negativos suceden en ventanas donde hay mucha variabilidad del tráfico. En este caso sucede en los periodos entre las 09:00 y 11:00 y también entre las 16:00 y 19:00 del jueves, 09, de junio de 2016. Estas clasificaciones incorrectas se deben a que el tráfico en estos periodos se asemeja al tráfico de ataque, mostrando una carga incremental, por lo que el modelo presenta más dificultades para clasificar correctamente estas ventanas.
 
-\begin{figure}[Clasificación de las ventanas del dataset en base al parámetro \textit{mean}]{FIG:CATALOGACIONDEF}{Clasificación de las ventanas del dataset en base al parámetro \textit{mean}}
-    \image{11cm}{}{catalogacion_defensa.pdf}
+\begin{figure}[Clasificación de las ventanas del \textit{dataset} sin aplicar ataque, entre los días 09/06/2016 (jueves) y 10/06/2016 (viernes), utilizando regresión logística con todos los parámetros]{FIG:CATALOGACIONDEF}{Clasificación de las ventanas del \textit{dataset} sin aplicar ataque, entre los días 09/06/2016 (jueves) y 10/06/2016 (viernes), utilizando regresión logística con todos los parámetros}
+    \image{}{}{catalogacion_defensa.pdf}
     \label{FIG:CATALOGACIONDEF}
 \end{figure}
 
-En la figura~\ref{FIG:CATALOGACIONDEF} se muestra la clasificación de las ventanas del dataset en base al parámetro \textit{mean}. Se ha utilizado una ventana móvil de 60 segundos para una representación más clara.
+En la figura~\ref{FIG:CATALOGACIONDEF} se muestra la clasificación de las ventanas del dataset utilizando regresión logística con todos los parámetros. Se ha utilizado una ventana móvil de 60 segundos para una representación más clara.
 En color rojo se indican las ventanas que se han incorrectamente clasificadas como ataque, mientras que en color azul se indican las ventanas que han sido correctamente clasificadas como no ataque.
 Al igual que en el caso anterior, la mayoría de las ventanas han sido clasificadas correctamente, y el porcentaje de falsos positivos es del $17.24\%$.
 En este caso, no se observan concentraciones de falsos positivos, sino que se distribuyen de forma más uniforme a lo largo del día, por lo que podemos concluir que el método no está influenciado por ventanas con mucho o poco tráfico.
