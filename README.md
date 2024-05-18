@@ -14,12 +14,12 @@ Es importante recalcar que las rutas de los archivos que se utilizan para cargar
 
 Para una comprensión general del proyecto, a continuación se muestran dos diagramas que representan el trabajo realizado:
 
-![Diagrama de análisis de datos](img/diagrama_1.svg)
+![Diagrama de análisis de datos](img/diagrama_1.jpg)
 
 En el diagrama anterior se especifica cómo hemos llegado hasta obtener una serie estacionaria con los datos de entrada, que nos serán de utilidad para obtener predicciones.
 
-![Diagrama de procesado de datos](img/diagrama_2.svg)
+![Diagrama de procesado de datos](img/diagrama_2.jpg)
 
 Con este último diagrama del procesado de datos, se obtienen algunos parámetros que posteriormente se utilizan para la detección de una anomalía en el tráfico. A continuación se muestra un diagrama de la distribución que siguen todos los parámetros obtenidos. El rojo se ha utilizado para los valores de los parámetros cuando la ventana está bajo ataque, mientras que el azul se utiliza cuando no hay ataque. Los parámetros diferenciadores parecen ser _mean_ y delta.
 
-![Distribución de parámetros](img/scatter_plot.svg)
+![Distribución de parámetros](img/scatter_plot.jpg)
