@@ -75,7 +75,7 @@ Se ha obtenido un \textit{accuracy} del $79.4\%$, una precisión del $79.8\%$, u
 También se ha realizado un análisis de regresión logística con todos los parámetros considerados. Los resultados de la regresión logística se muestran en la tabla~\ref{TAB:LOGISTICREGRESSIONFULL}.
 En la figura~\ref{FIG:CONFUSIONMATRIX2} se muestra la matriz de confusión de la regresión logística con todos los parámetros y su curva \ac{ROC}. Se ha obtenido un \textit{accuracy} del $83.1\%$, una precisión del $82.2\%$, una sensibilidad del $84.6\%$ y un \textit{F1 score} del $83.4\%$. Estos resultados indican que la regresión logística con todos los parámetros es más eficaz que la regresión logística que solo usa los parámetros $\delta$ y \textit{mean}, ya que se obtiene una mejora en todas las métricas de evaluación.
 
-\subsection{Detección sobre el conjunto de datos de prueba}\label{SUBSEC:DETECCIONDATASET}
+\subsection{Detecci\'on sobre el conjunto de datos de prueba}\label{SUBSEC:DETECCIONDATASET}
 
 Un resultado de interés es comprobar en qué ventanas del \textit{dataset} se pueden detectar anomalías y en qué ventanas se puede confirmar que no hay anomalías correctamente. Para ello, se ha realizado una predicción utilizando el método de regresión logística con todos los parámetros, ya que obtenemos los mejores resultados con este método. Se ha utilizado el $80\%$ de los datos para el entrenamiento de la regresión, y se ha realizado la prueba sobre los datos restantes, tras eliminar los datos que puedan solaparse con los datos de entrenamiento.
 

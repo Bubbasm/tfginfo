@@ -578,14 +578,14 @@
 	\if@languagespa
 		\def\@ListsChapter{Listas}
 		\def\glossaryname{Definiciones}
-		\def\listacronymname{Acrónimos}
-		\def\@auxvarcode{Código}
-		\def\@auxvarcodeindex{\addtocounter{section}{1}Lista de códigos}
+		\def\listacronymname{Acr\'onimos}
+		\def\@auxvarcode{C\'odigo}
+		\def\@auxvarcodeindex{\addtocounter{section}{1}Lista de c\'odigos}
 		\def\@auxvartextbox{Cuadro}
 		\def\@auxvartextboxindex{\addtocounter{section}{1}Lista de cuadros}
-		\def\contentsname{Índice}
-		\def\bibname{Bibliografía}
-		\def\appendixname{Apéndices}
+		\def\contentsname{\'Indice}
+		\def\bibname{Bibliograf\'ia}
+		\def\appendixname{Ap\'endices}
 		\def\listfigurename{\addtocounter{section}{1}Lista de figuras}
 		\def\listequationname{\addtocounter{section}{1}Lista de ecuaciones}
 		\def\figurename{Figura}
@@ -593,9 +593,9 @@
 		\def\tablename{Tabla}
 		\def\@auxvaralgorithm{Algoritmo}
 		\def\@auxvaralgorithmindex{\addtocounter{section}{1}Lista de algoritmos}
-		\def\indexname{Índice terminológico}
+		\def\indexname{\'Indice terminol\'ogico}
 		\def\glosario{Glosario}
-		\renewcommand*{\acronymname}{Acrónimos}
+		\renewcommand*{\acronymname}{Acr\'onimos}
 	\else
 		\def\@ListsChapter{Lists}
 		\def\glossaryname{Terminology}
