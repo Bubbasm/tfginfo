@@ -1,24 +1,24 @@
 warning('off')
 % Step 1: Read data from CSV into a table
-% data1 = readtable('../csv/diff_attack.csv');
-% data2 = readtable('../csv/diff_no_attack.csv');
-% 
-% window_size = 898;
-% 
-% d1 = data1.Var1;
-% d2 = data2.Var1;
-% 
-% % Determine the number of windows
-% num_windows = floor(length(d1)/window_size);
-% 
-% % Initialize arrays to store the parameters
-% alpha_values = zeros(num_windows*2, 1);
-% beta_values = zeros(num_windows*2, 1);
-% gamma_values = zeros(num_windows*2, 1);
-% delta_values = zeros(num_windows*2, 1);
-% attack_value = zeros(num_windows*2, 1);
+data1 = readtable('../csv/diff_attack.csv');
+data2 = readtable('../csv/diff_no_attack.csv');
+
+window_size = 898;
+
+d1 = data1.Var1;
+d2 = data2.Var1;
+
+% Determine the number of windows
+num_windows = floor(length(d1)/window_size);
+
+% Initialize arrays to store the parameters
+alpha_values = zeros(num_windows*2, 1);
+beta_values = zeros(num_windows*2, 1);
+gamma_values = zeros(num_windows*2, 1);
+delta_values = zeros(num_windows*2, 1);
+attack_value = zeros(num_windows*2, 1);
 % Loop through each window
-for i = 15011:num_windows
+for i = 1:num_windows
     % Extract the current window
     current_window = d1((1+(i-1)*window_size):(720+(i-1)*window_size));
 
